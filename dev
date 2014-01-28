@@ -5,9 +5,10 @@
 4.一些在此框架基础上开发好的工具,如根据填写在模版文件上的单元格名称去数据Excel中批量取数的工具。
 
 *Feature
-1.分为Filter, Intercepter, Parser模块（Filter在Intercepter外面,即先Filter处理再Intercepter处理）
+1.分为Filler, Intercepter, Parser模块
 2.对Excel2003, 2007都支持
 
+1-based
 
 大文件分段同时读的功能
 读，解，读，三个操作动态均衡
@@ -20,3 +21,7 @@
 
 核心调用关系
 Manager 操作 组件
+
+*TODO
+大文件以Excel顺序读取实现（普通的可以回读）
+

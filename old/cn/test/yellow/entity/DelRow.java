@@ -1,10 +1,10 @@
 package cn.yhhh.fairy.yellow.entity;
 
-public class SimpleRow implements Row {
+public class DelRow implements TDRow {
 
 	private long rowNum;
 	private Object[] values;
-	
+
 	public Object getObject(int i) {
 		return values[i];
 	}
@@ -18,15 +18,16 @@ public class SimpleRow implements Row {
 	}
 
 	public float getFloat(int i) {
-		return (Float) values[i];
+		return ((Double) values[i]).floatValue();
 	}
 
 	public long getLong(int i) {
-		return (Long) values[i];
+		return ((Double) values[i]).longValue();
 	}
 
 	public int getInt(int i) {
-		return (Integer) values[i];
+		// TODO Exception
+		return Integer.parseInt((String) values[i]);
 	}
 
 	public int length() {
