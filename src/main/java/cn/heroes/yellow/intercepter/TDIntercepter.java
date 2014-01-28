@@ -1,8 +1,8 @@
-package cn.yhhh.yellow.intercepter;
+package cn.heroes.yellow.intercepter;
 
 import java.io.File;
 
-import cn.yhhh.yellow.entity.TDRow;
+import cn.heroes.yellow.entity.TDRow;
 
 public interface TDIntercepter extends Interceptor {
 

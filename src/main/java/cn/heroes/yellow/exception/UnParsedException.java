@@ -1,4 +1,4 @@
-package cn.yhhh.yellow.exception;
+package cn.heroes.yellow.exception;
 
 /**
  * 文件未解析
@@ -7,9 +7,9 @@ package cn.yhhh.yellow.exception;
  * @version 1.00, 2014-1-28
  * @since 1.0
  */
-public class UnParserException extends RuntimeException {
+public class UnParsedException extends RuntimeException {
 
-	public UnParserException() {
+	public UnParsedException() {
 		super("Please invoke parser Method first.");
 	}
 }

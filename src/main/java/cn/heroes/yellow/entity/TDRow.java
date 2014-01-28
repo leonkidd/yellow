@@ -1,4 +1,4 @@
-package cn.yhhh.yellow.entity;
+package cn.heroes.yellow.entity;
 
 /**
  * Two-Dimensional Table's row<br/>
