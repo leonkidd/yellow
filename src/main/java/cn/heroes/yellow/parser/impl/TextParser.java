@@ -10,7 +10,7 @@ import cn.heroes.yellow.parser.FullTextParser;
 
 /**
  * Text file parse<br/>
- * 文件文件解析
+ * 文本文件解析
  * 
  * @author Leon Kidd
  * @version 1.00, 2014-1-28

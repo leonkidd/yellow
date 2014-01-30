@@ -8,6 +8,12 @@
 1.分为Filler, Intercepter, Parser模块
 2.对Excel2003, 2007都支持
 
+
+!! Parser: prototype; Interceptor: singleton ?
+!! 批量处理文件，如一整个目录，并提供标识(目录，文件名!，Sheet名!)
+
+
+
 1-based
 
 大文件分段同时读的功能

@@ -5,7 +5,7 @@ import cn.heroes.yellow.exception.UnParsedException;
 
 /**
  * Two-Dimensional Table parser interface<br/>
- * 二维表格解析器,如del, excel等
+ * 二维表格解析器,从数据源中获取"遂条"(遂行)的数据, 以行列的接口(TDRow)形式呈现数据, 如del, excel等
  * 
  * @author Leon Kidd
  * @version 1.00, 2014-1-28

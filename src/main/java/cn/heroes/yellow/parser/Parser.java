@@ -7,6 +7,7 @@ import cn.heroes.yellow.exception.ParsingException;
 
 /**
  * The <code>Parser</code> interface should be implemented by all Parsers.
+ * 解析器, 只关注文件格式，将文件内容统一成标准格式交由Intercepter处理.
  * 
  * @author Leon Kidd
  * @version 1.00, 2014-1-28
