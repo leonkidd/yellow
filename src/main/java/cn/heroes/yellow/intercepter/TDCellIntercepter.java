@@ -70,9 +70,9 @@ public abstract class TDCellIntercepter implements TDIntercepter {
 
 	}
 
-	@Override
-	public void directory(File directory) {
-
-	}
+//	@Override
+//	public void directory(File directory) {
+//
+//	}
 
 }

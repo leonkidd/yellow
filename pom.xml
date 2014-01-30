@@ -19,11 +19,6 @@
 			<version>1.0</version>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-		</dependency>
-		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>1.0.13</version>
@@ -42,6 +37,11 @@
 			<groupId>cn.heroes</groupId>
 			<artifactId>jkit</artifactId>
 			<version>0.2.8</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
 		</dependency>
 	</dependencies>
 	<properties>
