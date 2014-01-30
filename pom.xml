@@ -14,11 +14,6 @@
 			<version>3.9</version>
 		</dependency>
 		<dependency>
-			<groupId>cn.heroes</groupId>
-			<artifactId>jkit</artifactId>
-			<version>0.2.6</version>
-		</dependency>
-		<dependency>
 			<groupId>org.skife</groupId>
 			<artifactId>csv</artifactId>
 			<version>1.0</version>
@@ -42,6 +37,11 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.heroes</groupId>
+			<artifactId>jkit</artifactId>
+			<version>0.2.8</version>
 		</dependency>
 	</dependencies>
 	<properties>
