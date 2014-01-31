@@ -2,8 +2,9 @@ package cn.yhhh.test;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -14,12 +15,10 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-import cn.heroes.jkit.excel.handler.ExcelHandler;
-import cn.heroes.jkit.utils.Callback;
+import cn.heroes.jkit.excel.parser.ExcelParser;
 import cn.heroes.jkit.utils.ExcelUtils;
-import cn.heroes.jkit.utils.FileUtils;
 import cn.heroes.yellow.Yellow;
-import cn.heroes.yellow.parser.impl.ExcelParser;
+import cn.heroes.yellow.intercepter.Interceptor;
 
 public class MyTest {
 	
@@ -40,20 +39,34 @@ public class MyTest {
 		try {
 			Workbook book = WorkbookFactory.create(tempate);
 			int numberOfSheets = book.getNumberOfSheets();
+			
+			// 存储单元格位置列表
+			List<String> cellPoses = new ArrayList<String>();
+			
 			// 迭代Sheet
 			for(int i = 0; i < numberOfSheets; i++) {
 				Sheet sheet = book.getSheetAt(i);
 				// 第四行
 				Row row = sheet.getRow(3);
+				if(row == null) {
+					continue;
+				}
 				// 迭代单元格
 				Iterator<Cell> cells = row.cellIterator();
 				while(cells.hasNext()) {
 					Cell cell = cells.next();
 					// 单元格标识代码, e.g. $H2
 					Object cellValue = ExcelUtils.getCellValue(cell);
-					System.out.println(cellValue);
+					cellPoses.add(cellValue.toString());
 				}
 			}
+			
+			String[] array = cellPoses.toArray(new String[]{});
+			ExcelParser parser = new ExcelParser();
+			Interceptor interceptor = new MyTDCellIntercepter();
+			
+			//Yellow.build(parser, interceptor);
+			
 		} catch (InvalidFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
