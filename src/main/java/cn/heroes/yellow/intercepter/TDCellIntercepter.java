@@ -23,16 +23,10 @@ public abstract class TDCellIntercepter implements TDIntercepter {
 	/** Alphabet字母表 */
 	private static final String ABC = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
 
-	//
-
 	public TDCellIntercepter(String[] cellPoses) {
 
 	}
-
-	public TDCellIntercepter() {
-
-	}
-
+	
 	public abstract void callback(Map<String, Object> cellDatas);
 
 	@Override
