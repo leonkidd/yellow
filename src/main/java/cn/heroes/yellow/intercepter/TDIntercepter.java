@@ -1,8 +1,7 @@
 package cn.heroes.yellow.intercepter;
 
-import java.io.File;
-
 import cn.heroes.yellow.entity.TDRow;
+import cn.heroes.yellow.entity.impl.FileInfo;
 
 /**
  * Two-Dimensional Table Intercepter interface<br/>
@@ -67,12 +66,7 @@ public interface TDIntercepter extends Interceptor {
 	 */
 	void row(TDRow row);
 
-	/**
-	 * Intercept every file
-	 * 
-	 * @param file
-	 *            file.
-	 */
-	void file(File file);
+	// TODO
+	void info(FileInfo info);
 
 }

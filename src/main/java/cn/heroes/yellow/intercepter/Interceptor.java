@@ -1,6 +1,7 @@
 package cn.heroes.yellow.intercepter;
 
 import cn.heroes.yellow.NObject;
+import cn.heroes.yellow.entity.Info;
 
 /**
  * The <code>Interceptor</code> interface should be implemented by all
@@ -15,4 +16,11 @@ import cn.heroes.yellow.NObject;
  */
 public interface Interceptor extends NObject {
 
+	/**
+	 * 在Parser要开始化析某个内容时调用。
+	 * TODO
+	 * @param info
+	 *            Parser正要开始分析的内容主体相关的信息, 如文件名等
+	 */
+	void info(Info info);
 }

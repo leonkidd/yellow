@@ -1,9 +1,12 @@
 package cn.heroes.yellow.intercepter;
 
-import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import cn.heroes.yellow.entity.TDRow;
+import cn.heroes.yellow.entity.impl.ExcelInfo;
 
 /**
  * 二维表单元格取值<br/>
@@ -20,18 +23,36 @@ import cn.heroes.yellow.entity.TDRow;
  */
 public abstract class TDCellIntercepter implements TDIntercepter {
 
-	/** Alphabet字母表 */
+	/** Alphabet 26位字母表 */
 	private static final String ABC = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
+	/** 存储单元格位置信息的List */
+	private List<String> cellPoses;
 
+	/**
+	 * 
+	 * @param cellPoses
+	 *            存储单元格位置信息的数组(顺序无关)
+	 */
 	public TDCellIntercepter(String[] cellPoses) {
-
+		this.cellPoses = Arrays.asList(cellPoses);
 	}
-	
+
+	/**
+	 * 
+	 * @param cellPoses
+	 *            存储单元格位置信息的List(顺序无关)
+	 */
+	public TDCellIntercepter(List<String> cellPoses) {
+		this.cellPoses = cellPoses;
+	}
+
 	public abstract void callback(Map<String, Object> cellDatas);
 
 	@Override
 	public void init() {
-
+		// 单元格位置名排序, 先按行小的,再按列小的. e.g. A1,A2,B1,B2
+		// TODO Sheet? 先分类
+		Collections.sort(cellPoses);
 	}
 
 	@Override
@@ -41,7 +62,7 @@ public abstract class TDCellIntercepter implements TDIntercepter {
 
 	@Override
 	public boolean begin(TDRow row) {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -58,15 +79,7 @@ public abstract class TDCellIntercepter implements TDIntercepter {
 	public void row(TDRow row) {
 
 	}
-
-	@Override
-	public void file(File file) {
-
-	}
-
-//	@Override
-//	public void directory(File directory) {
-//
-//	}
+	
+	// TODO 标识Info: File, Directory, Sheet
 
 }

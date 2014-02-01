@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,6 +31,21 @@ public class MyTest {
 	@Before
 	public void before() {
 
+	}
+
+	@Test
+	public void cellPosesSort() {
+		List<String> list = new ArrayList<String>();
+		list.add("B1");
+		list.add("C2");
+		list.add("C1");
+		list.add("A1");
+		list.add("A3");
+		list.add("B4");
+		Collections.sort(list);
+		for(String s : list) {
+			System.out.println(s);
+		}
 	}
 
 	/**
