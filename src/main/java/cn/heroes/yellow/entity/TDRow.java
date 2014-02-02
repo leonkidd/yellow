@@ -25,7 +25,7 @@ public interface TDRow {
 	 * @param i
 	 *            1-based, the first column is 1, the second is 2, ...
 	 * @return the column value; if the value is not exist, the value returned
-	 *         is <code>null</code>
+	 *         is empty String <code>""</code>
 	 */
 	String getString(int i);
 
@@ -35,7 +35,7 @@ public interface TDRow {
 	 * @param i
 	 *            1-based, the first column is 1, the second is 2, ...
 	 * @return the column value; if the value is not exist, the value returned
-	 *         is <code>null</code>
+	 *         is <code>0</code>
 	 */
 	double getDouble(int i);
 
@@ -45,7 +45,7 @@ public interface TDRow {
 	 * @param i
 	 *            1-based, the first column is 1, the second is 2, ...
 	 * @return the column value; if the value is not exist, the value returned
-	 *         is <code>null</code>
+	 *         is <code>0</code>
 	 */
 	float getFloat(int i);
 
@@ -55,7 +55,7 @@ public interface TDRow {
 	 * @param i
 	 *            1-based, the first column is 1, the second is 2, ...
 	 * @return the column value; if the value is not exist, the value returned
-	 *         is <code>null</code>
+	 *         is <code>0</code>
 	 */
 	long getLong(int i);
 
@@ -65,7 +65,7 @@ public interface TDRow {
 	 * @param i
 	 *            1-based, the first column is 1, the second is 2, ...
 	 * @return the column value; if the value is not exist, the value returned
-	 *         is <code>null</code>
+	 *         is <code>0</code>
 	 */
 	int getInt(int i);
 

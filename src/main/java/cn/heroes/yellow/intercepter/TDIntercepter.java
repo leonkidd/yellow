@@ -30,7 +30,8 @@ public interface TDIntercepter extends Intercepter {
 	/**
 	 * 
 	 * Should we begin here? And contain current row.<br/>
-	 * It means the specified row will be <code>row()</code>.
+	 * It means the specified row will be <code>row()</code>, except
+	 * <code>end</code> or <code>ignore</code> return true too.
 	 * 
 	 * @param row
 	 * @return if true, we will start to <code>row()</code>.
