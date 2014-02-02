@@ -4,6 +4,8 @@ import java.io.InputStream;
 
 import cn.heroes.yellow.core.Yellow;
 import cn.heroes.yellow.entity.TDRow;
+import cn.heroes.yellow.entity.impl.ExcelInfo;
+import cn.heroes.yellow.entity.impl.FileInfo;
 import cn.heroes.yellow.filler.Filler;
 import cn.heroes.yellow.intercepter.TDIntercepter;
 import cn.heroes.yellow.parser.TDParser;
@@ -40,6 +42,10 @@ public class TDYellow extends Yellow {
 		
 		// 迭代row
 		TDRow row = null;
+		
+		FileInfo info = new FileInfo();
+		
+		i.info(info);
 		while ((row = p.next()) != null) {
 
 			// 是否已真正开始
