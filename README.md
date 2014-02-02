@@ -22,3 +22,9 @@ Yellow
 	
 ### Filler 填充器
 只关注将拦截器输出的标准格式内容, 转化成文件.
+
+
+自带实现
+----------
+TD*	二维表格	Excel, Excel(Cell), Del, HTML
+FullTextParser	一维(全文)文本 Text, Word

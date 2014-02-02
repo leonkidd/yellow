@@ -2,6 +2,7 @@ package cn.yhhh.test;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -18,8 +19,10 @@ import org.junit.Test;
 import cn.heroes.jkit.utils.ACallback;
 import cn.heroes.jkit.utils.ExcelUtils;
 import cn.heroes.jkit.utils.FileUtils;
-import cn.heroes.yellow.Yellow;
-import cn.heroes.yellow.intercepter.Interceptor;
+import cn.heroes.yellow.core.Yellow;
+import cn.heroes.yellow.core.impl.TDYellow;
+import cn.heroes.yellow.intercepter.TDIntercepter;
+import cn.heroes.yellow.parser.TDParser;
 import cn.heroes.yellow.parser.impl.ExcelParser;
 
 public class MyTest {
@@ -79,10 +82,10 @@ public class MyTest {
 			}
 
 			String[] array = cellPoses.toArray(new String[] {});
-			ExcelParser parser = new ExcelParser();
-			Interceptor interceptor = new MyTDCellIntercepter(array);
+			TDParser parser = new ExcelParser();
+			TDIntercepter interceptor = new MyTDCellIntercepter(array);
 
-			final Yellow yellow = Yellow.build(parser, interceptor);
+			final Yellow yellow = new TDYellow(parser, interceptor, null);
 
 			// 要分析的文件所在目录
 			File dir = new File("test/cell");
@@ -96,7 +99,14 @@ public class MyTest {
 				@Override
 				public void invoke(Object... t) {
 					File file = (File)t[0];
-					yellow.yellow(file);
+					FileInputStream fis;
+					try {
+						fis = new FileInputStream(file);
+						yellow.yellow(fis);
+						fis.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			});
 

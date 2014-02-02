@@ -1,5 +1,7 @@
 package cn.heroes.yellow.filler;
 
-public interface Filler {
+import cn.heroes.yellow.NObject;
+
+public interface Filler extends NObject {
 	
 }

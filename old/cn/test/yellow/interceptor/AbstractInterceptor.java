@@ -6,7 +6,7 @@ import cn.yhhh.fairy.yellow.core.Configuration;
 import cn.yhhh.fairy.yellow.entity.Row;
 import cn.yhhh.fairy.yellow.parser.Parser;
 
-public abstract class AbstractInterceptor implements Interceptor {
+public abstract class AbstractInterceptor implements Intercepter {
 
 	/** 当前使用的分析器 */
 	protected Parser parser;
