@@ -1,7 +1,6 @@
 package cn.heroes.yellow.intercepter;
 
 import cn.heroes.yellow.entity.TDRow;
-import cn.heroes.yellow.entity.impl.FileInfo;
 
 /**
  * Two-Dimensional Table Intercepter interface<br/>
@@ -9,6 +8,7 @@ import cn.heroes.yellow.entity.impl.FileInfo;
  * <p>
  * Priority Level between <code>begin</code>, <code>ignore</code> and
  * <code>end</code> is begin > end > ignore, and begin once.
+ * </p>
  * 
  * <pre>
  * while (begin) {
@@ -20,8 +20,6 @@ import cn.heroes.yellow.entity.impl.FileInfo;
  * 	break;
  * }
  * </pre>
- * 
- * </p>
  * 
  * @author Leon Kidd
  * @version 1.00, 2014-1-28
@@ -65,8 +63,5 @@ public interface TDIntercepter extends Interceptor {
 	 *            row.
 	 */
 	void row(TDRow row);
-
-	// TODO
-	void info(FileInfo info);
 
 }

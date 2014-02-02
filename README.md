@@ -11,7 +11,7 @@ Yellow
 
 组件介绍
 ----------
-* 不同的三种组件的实现可以自定义无缝对接
+* 开发者可以选取任意不同的Parser和Filler, 与自己实现的Interceptor无缝对接.
 * 数据流程: 输入文件 --> Parser --> Interceptor --> Filler --> 输出文件
 
 ### Parser 解析器

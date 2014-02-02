@@ -26,7 +26,7 @@ public abstract class TDCellIntercepter implements TDIntercepter {
 	/** Alphabet 26位字母表 */
 	private static final String ABC = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
 	/** 存储单元格位置信息的List */
-	private List<String> cellPoses;
+	protected List<String> cellPoses;
 
 	/**
 	 * 

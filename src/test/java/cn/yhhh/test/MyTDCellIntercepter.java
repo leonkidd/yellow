@@ -3,7 +3,7 @@ package cn.yhhh.test;
 import java.util.Map;
 
 import cn.heroes.yellow.entity.Info;
-import cn.heroes.yellow.entity.impl.FileInfo;
+import cn.heroes.yellow.entity.impl.ExcelInfo;
 import cn.heroes.yellow.intercepter.TDCellIntercepter;
 
 public class MyTDCellIntercepter extends TDCellIntercepter {
@@ -14,21 +14,16 @@ public class MyTDCellIntercepter extends TDCellIntercepter {
 
 	@Override
 	public void callback(Map<String, Object> cellDatas) {
-
-	}
-	
-	// TODO
-
-	@Override
-	public void info(FileInfo info) {
-		// TODO Auto-generated method stub
-		
+		for(String cellPos : cellPoses) {
+			Object value = cellDatas.get(cellPos);
+			System.out.println(cellPos + ", " + value);
+		}
 	}
 
 	@Override
 	public void info(Info info) {
-		// TODO Auto-generated method stub
-		
+		ExcelInfo ei = (ExcelInfo)info;
+		System.out.println("开始解析: " + ei.file.getName() + ", " + ei.sheetName);
 	}
 
 }

@@ -17,10 +17,10 @@ import cn.heroes.yellow.entity.Info;
 public interface Interceptor extends NObject {
 
 	/**
-	 * 在Parser要开始化析某个内容时调用。
-	 * TODO
+	 * 在Parser要开始化析某个内容时调用, 一般是放入一些Parser正要解析的内容主体相关的信息.
+	 * 
 	 * @param info
-	 *            Parser正要开始分析的内容主体相关的信息, 如文件名等
+	 *            信息, 如文件名等
 	 */
 	void info(Info info);
 }

@@ -1,7 +1,8 @@
 package cn.heroes.yellow.parser;
 
+import java.util.Iterator;
+
 import cn.heroes.yellow.entity.TDRow;
-import cn.heroes.yellow.exception.UnParsedException;
 
 /**
  * Two-Dimensional Table parser interface<br/>
@@ -11,7 +12,7 @@ import cn.heroes.yellow.exception.UnParsedException;
  * @version 1.00, 2014-1-28
  * @since 1.0
  */
-public interface TDParser extends Parser<Void> {
+public interface TDParser extends Parser<Iterator<TDRow>> {
 
 	/**
 	 * Move pointer to the next row, and get that Two-Dimensional Table Row.
@@ -21,5 +22,6 @@ public interface TDParser extends Parser<Void> {
 	 * @throws UnParsedException
 	 *             if <code>parse</code> method didn't invoked before.
 	 */
-	TDRow next() throws UnParsedException;
+	// TDRow next() throws UnParsedException;
+
 }
