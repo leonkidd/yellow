@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import cn.heroes.jkit.utils.ExcelUtils;
 import cn.heroes.yellow.entity.TDRow;
 import cn.heroes.yellow.entity.impl.ExcelRow;
+import cn.heroes.yellow.entity.impl.FileInfo;
 import cn.heroes.yellow.exception.ParsingException;
 import cn.heroes.yellow.exception.UnParsedException;
 import cn.heroes.yellow.parser.TDParser;
@@ -46,7 +47,7 @@ public class ExcelParser implements TDParser {
 	private Sheet sheet = null;
 
 	@Override
-	public Void parse(InputStream is) throws ParsingException {
+	public Void parse(InputStream is, FileInfo info) throws ParsingException {
 		try {
 			book = ExcelUtils.create(is);
 			int numberOfSheets = book.getNumberOfSheets();

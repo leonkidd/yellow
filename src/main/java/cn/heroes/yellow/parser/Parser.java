@@ -3,6 +3,7 @@ package cn.heroes.yellow.parser;
 import java.io.InputStream;
 
 import cn.heroes.yellow.NObject;
+import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.exception.ParsingException;
 
 /**
@@ -12,7 +13,7 @@ import cn.heroes.yellow.exception.ParsingException;
  * @author Leon Kidd
  * @version 1.00, 2014-1-28
  */
-public interface Parser<T> extends NObject {
+public interface Parser<T, I extends Info> extends NObject {
 
 	/**
 	 * Parse the specified input stream.
@@ -21,5 +22,5 @@ public interface Parser<T> extends NObject {
 	 *            the specified input stream.
 	 * @return
 	 */
-	T parse(InputStream is) throws ParsingException;
+	T parse(InputStream is, I info) throws ParsingException;
 }

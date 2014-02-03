@@ -1,6 +1,7 @@
 package cn.heroes.yellow.parser;
 
 import cn.heroes.yellow.entity.TDRow;
+import cn.heroes.yellow.entity.impl.FileInfo;
 import cn.heroes.yellow.exception.UnParsedException;
 
 /**
@@ -11,7 +12,7 @@ import cn.heroes.yellow.exception.UnParsedException;
  * @version 1.00, 2014-1-28
  * @since 1.0
  */
-public interface TDParser extends Parser<Void> {
+public interface TDParser extends Parser<Void, FileInfo> {
 
 	/**
 	 * Move pointer to the next row, and get that Two-Dimensional Table Row.
