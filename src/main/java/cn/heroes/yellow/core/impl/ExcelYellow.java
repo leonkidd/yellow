@@ -8,18 +8,18 @@ import cn.heroes.yellow.entity.impl.FileInfo;
 import cn.heroes.yellow.filler.Filler;
 import cn.heroes.yellow.intercepter.TDIntercepter;
 import cn.heroes.yellow.parser.TDParser;
-import cn.heroes.yellow.parser.impl.ExcelParser;
+import cn.heroes.yellow.parser.impl.ExcelParserImpl;
 
 public class ExcelYellow extends Yellow {
 
 	/** 解析器对象 */
-	private ExcelParser p;
+	private ExcelParserImpl p;
 	/** 拦截器对象 */
 	private TDIntercepter i;
 	/** 填充器对象 */
 	private Filler f;
 
-	public ExcelYellow(ExcelParser parser, TDIntercepter intercepter, Filler filler) {
+	public ExcelYellow(ExcelParserImpl parser, TDIntercepter intercepter, Filler filler) {
 		super(parser, intercepter, filler);
 		this.p = parser;
 		this.i = intercepter;

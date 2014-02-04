@@ -23,7 +23,7 @@ import cn.heroes.yellow.core.Yellow;
 import cn.heroes.yellow.core.impl.TDYellow;
 import cn.heroes.yellow.intercepter.TDIntercepter;
 import cn.heroes.yellow.parser.TDParser;
-import cn.heroes.yellow.parser.impl.ExcelParser;
+import cn.heroes.yellow.parser.impl.ExcelParserImpl;
 
 public class MyTest {
 
@@ -82,7 +82,7 @@ public class MyTest {
 			}
 
 			String[] array = cellPoses.toArray(new String[] {});
-			TDParser parser = new ExcelParser();
+			TDParser parser = new ExcelParserImpl();
 			TDIntercepter interceptor = new MyTDCellIntercepter(array);
 
 			final Yellow yellow = new TDYellow(parser, interceptor, null);
