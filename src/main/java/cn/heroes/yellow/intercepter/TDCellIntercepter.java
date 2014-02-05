@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import cn.heroes.yellow.entity.TDRow;
-import cn.heroes.yellow.entity.impl.ExcelInfo;
 
 /**
  * 二维表单元格取值<br/>
@@ -77,7 +76,10 @@ public abstract class TDCellIntercepter implements TDIntercepter {
 
 	@Override
 	public void row(TDRow row) {
-
+		int length = row.length();
+		for(int i = 0; i < length; i++) {
+			// TODO !!
+		}
 	}
 	
 	// TODO 标识Info: File, Directory, Sheet

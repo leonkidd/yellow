@@ -23,7 +23,7 @@ import cn.heroes.yellow.core.Yellow;
 import cn.heroes.yellow.core.impl.TDYellow;
 import cn.heroes.yellow.intercepter.TDIntercepter;
 import cn.heroes.yellow.parser.TDParser;
-import cn.heroes.yellow.parser.impl.ExcelParserImpl;
+import cn.heroes.yellow.parser.impl.Sheet0Parser;
 
 public class MyTest {
 
@@ -50,6 +50,9 @@ public class MyTest {
 	/**
 	 * 模拟测试单元格式的开发<br/>
 	 * 即通过编写好单元格名称（如: B2, C3）
+	 */
+	/**
+	 * 
 	 */
 	@Test
 	public void cellTest() {
@@ -82,7 +85,7 @@ public class MyTest {
 			}
 
 			String[] array = cellPoses.toArray(new String[] {});
-			TDParser parser = new ExcelParserImpl();
+			TDParser parser = new Sheet0Parser(); //new ExcelParserImpl();
 			TDIntercepter interceptor = new MyTDCellIntercepter(array);
 
 			final Yellow yellow = new TDYellow(parser, interceptor, null);

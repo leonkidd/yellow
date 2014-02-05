@@ -34,7 +34,8 @@ public abstract class Yellow {
 
 		p.init();
 		i.init();
-		f.init();
+		if (f != null)
+			f.init();
 	}
 
 	/**
@@ -48,7 +49,8 @@ public abstract class Yellow {
 	 * 销毁三组件
 	 */
 	public void destroy() {
-		f.destroy();
+		if (f != null)
+			f.destroy();
 		i.destroy();
 		p.destroy();
 	}

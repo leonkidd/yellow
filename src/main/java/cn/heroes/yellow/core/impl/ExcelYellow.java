@@ -39,6 +39,7 @@ public class ExcelYellow extends Yellow {
 		
 		FileInfo info = new FileInfo();
 		
+		/*
 		i.info(info);
 		while ((row = p.next()) != null) {
 
@@ -59,7 +60,7 @@ public class ExcelYellow extends Yellow {
 				// 判断是否真正开始, 真正开始后不再判断
 				isBegin = true;
 			}
-		}
+		}*/
 	}
 
 }

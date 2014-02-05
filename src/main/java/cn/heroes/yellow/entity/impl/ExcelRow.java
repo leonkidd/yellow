@@ -89,7 +89,7 @@ public class ExcelRow implements TDRow {
 
 	@Override
 	public int length() {
-		return row.getLastCellNum();
+		return row.getLastCellNum() + 1;
 	}
 
 	@Override

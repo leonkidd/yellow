@@ -3,7 +3,6 @@ package cn.yhhh.test;
 import java.util.Map;
 
 import cn.heroes.yellow.entity.Info;
-import cn.heroes.yellow.entity.impl.ExcelInfo;
 import cn.heroes.yellow.intercepter.TDCellIntercepter;
 
 public class MyTDCellIntercepter extends TDCellIntercepter {
@@ -22,8 +21,8 @@ public class MyTDCellIntercepter extends TDCellIntercepter {
 
 	@Override
 	public void info(Info info) {
-		ExcelInfo ei = (ExcelInfo)info;
-		System.out.println("开始解析: " + ei.file.getName() + ", " + ei.sheetName);
+		//FileInfo ei = (FileInfo)info;
+		//System.out.println("开始解析: " + ei.file.getName());
 	}
 
 }
