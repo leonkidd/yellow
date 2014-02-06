@@ -42,7 +42,7 @@ public class MyTest {
 		list.add("A3");
 		list.add("B4");
 		Collections.sort(list);
-		for(String s : list) {
+		for (String s : list) {
 			System.out.println(s);
 		}
 	}
@@ -58,7 +58,7 @@ public class MyTest {
 	public void cellTest() {
 		// -------------  获取单元格名字列表
 		// 模版文件
-		File tempate = new File("test/cell/template.xls");
+		File tempate = new File("test/template.xls");
 		try {
 			Workbook book = WorkbookFactory.create(tempate);
 			int numberOfSheets = book.getNumberOfSheets();
@@ -78,9 +78,11 @@ public class MyTest {
 				Iterator<Cell> cells = row.cellIterator();
 				while (cells.hasNext()) {
 					Cell cell = cells.next();
-					// 单元格标识代码, e.g. $H2
-					Object cellValue = ExcelUtils.getCellValue(cell);
-					cellPoses.add(cellValue.toString());
+					// 内容应为单元格标识代码, e.g. $H2
+					String cellValue = ExcelUtils.getCellValue(cell).toString();
+					if (cellValue.startsWith("$")) {
+						cellPoses.add(cellValue.substring(1));
+					}
 				}
 			}
 
@@ -96,20 +98,14 @@ public class MyTest {
 				@Override
 				public boolean accept(File file) {
 					String filename = file.getName();
-					return filename.endsWith(".xls") || filename.endsWith(".xlsx");
+					return filename.endsWith(".xls")
+							|| filename.endsWith(".xlsx") || file.isDirectory();
 				}
 			}, new ACallback() {
 				@Override
 				public void invoke(Object... t) {
-					File file = (File)t[0];
-					FileInputStream fis;
-					try {
-						fis = new FileInputStream(file);
-						yellow.yellow(fis);
-						fis.close();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					File file = (File) t[0];
+					yellow.yellow(file);
 				}
 			});
 

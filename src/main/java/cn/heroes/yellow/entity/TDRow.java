@@ -77,11 +77,11 @@ public interface TDRow {
 	int length();
 
 	/**
-	 * Retrieves the number of the current row.
+	 * Retrieves the number of the current row (1-based).
 	 * 
 	 * @return the first row is 1, the second row is 2, ...
 	 */
-	long getRowNum();
+	int getRowNum();
 
 	/**
 	 * 

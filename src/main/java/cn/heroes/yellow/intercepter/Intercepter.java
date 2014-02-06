@@ -23,4 +23,9 @@ public interface Intercepter extends NObject {
 	 *            信息, 如文件名等
 	 */
 	void info(Info info);
+
+	/**
+	 * The parsing is over now. 解析工作已结束.
+	 */
+	void over();
 }

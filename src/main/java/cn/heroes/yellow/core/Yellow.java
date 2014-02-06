@@ -1,7 +1,9 @@
 package cn.heroes.yellow.core;
 
+import java.io.File;
 import java.io.InputStream;
 
+import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.filler.Filler;
 import cn.heroes.yellow.intercepter.Intercepter;
 import cn.heroes.yellow.parser.Parser;
@@ -42,8 +44,16 @@ public abstract class Yellow {
 	 * 程序入口放法，处理指定数据流
 	 * 
 	 * @param is
+	 * @param info
 	 */
-	public abstract void yellow(InputStream is);
+	public abstract void yellow(InputStream is, Info info);
+
+	/**
+	 * 程序入口放法，处理指定数文件
+	 * 
+	 * @param file
+	 */
+	public abstract void yellow(File file);
 
 	/**
 	 * 销毁三组件

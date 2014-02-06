@@ -35,6 +35,13 @@ Manager 操作 组件
 *TODO
 大文件以Excel顺序读取实现（普通的可以回读）
 
+Excel版本的TDCellIntercepter
+ * <p>
+ * 单元格标识为：<code>[SheetName!]CellName</code>, 其中<code>SheetName</code>
+ * 代表Excel的SheetName(当非Excel或默认第一个Sheet时可不用写), <code>CellName</code>代表单元格位置(e.g.
+ * H3).
+ * </p>
+
 
 *Record
 Yellow到底是为TD量身打造呢，还是仅仅是个分析、处理、结果的一个标准框架，而TD只是其下的一个标准?

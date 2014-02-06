@@ -1,8 +1,13 @@
 package cn.heroes.yellow.core.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import cn.heroes.yellow.core.Yellow;
+import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.entity.TDRow;
 import cn.heroes.yellow.entity.impl.FileInfo;
 import cn.heroes.yellow.filler.Filler;
@@ -32,37 +37,65 @@ public class TDYellow extends Yellow {
 	}
 
 	@Override
-	public void yellow(InputStream is) {
+	public void yellow(InputStream is, Info info) {
 		// 调用解析器去解析InputStream
 		p.parse(is);
-		
+
 		// 是否已真正开始的标识
 		boolean isBegin = false;
-		
+
 		// 迭代row
 		TDRow row = null;
-		
-		FileInfo info = new FileInfo();
-		
+
 		i.info(info);
 		while ((row = p.next()) != null) {
 
 			// 是否已真正开始
-			if (isBegin) {
-				// 已开始
-				if (i.end(row)) {
-					// 结束
-					break;
-				} else if (i.ignore(row)) {
-					// 该行忽略
-					continue;
+			if (!isBegin) {
+				if (i.begin(row)) {
+					// 判断是否真正开始, 真正开始后不再判断
+					isBegin = true;
 				} else {
-					// Business Code
-					i.row(row);
+					continue;
 				}
-			} else if (i.begin(row)) {
-				// 判断是否真正开始, 真正开始后不再判断
-				isBegin = true;
+			}
+
+			// 已开始
+			if (i.end(row)) {
+				// 结束
+				break;
+			} else if (i.ignore(row)) {
+				// 该行忽略
+				continue;
+			} else {
+				// Business Code
+				i.row(row);
+			}
+		}
+		// 分析结束
+		i.over();
+	}
+
+	@Override
+	public void yellow(File file) {
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(file);
+
+			FileInfo info = new FileInfo();
+			info.file = file;
+
+			yellow(fis, info);
+		} catch (FileNotFoundException e) {
+			// Throw exception
+			e.printStackTrace();
+		} finally {
+			if (fis != null) {
+				try {
+					fis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

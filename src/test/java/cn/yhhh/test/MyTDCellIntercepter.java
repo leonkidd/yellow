@@ -21,8 +21,7 @@ public class MyTDCellIntercepter extends TDCellIntercepter {
 
 	@Override
 	public void info(Info info) {
-		//FileInfo ei = (FileInfo)info;
-		//System.out.println("开始解析: " + ei.file.getName());
+		super.info(info);
 	}
 
 }

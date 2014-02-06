@@ -93,7 +93,7 @@ public class ExcelRow implements TDRow {
 	}
 
 	@Override
-	public long getRowNum() {
+	public int getRowNum() {
 		return row.getRowNum() + 1;
 	}
 

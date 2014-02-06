@@ -1,13 +1,14 @@
 package cn.heroes.yellow.core.impl;
 
+import java.io.File;
 import java.io.InputStream;
 
 import cn.heroes.yellow.core.Yellow;
+import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.entity.TDRow;
 import cn.heroes.yellow.entity.impl.FileInfo;
 import cn.heroes.yellow.filler.Filler;
 import cn.heroes.yellow.intercepter.TDIntercepter;
-import cn.heroes.yellow.parser.TDParser;
 import cn.heroes.yellow.parser.impl.ExcelParserImpl;
 
 public class ExcelYellow extends Yellow {
@@ -27,7 +28,7 @@ public class ExcelYellow extends Yellow {
 	}
 
 	@Override
-	public void yellow(InputStream is) {
+	public void yellow(InputStream is, Info info) {
 		// 调用解析器去解析InputStream
 		p.parse(is);
 		
@@ -36,8 +37,6 @@ public class ExcelYellow extends Yellow {
 		
 		// 迭代row
 		TDRow row = null;
-		
-		FileInfo info = new FileInfo();
 		
 		/*
 		i.info(info);
@@ -61,6 +60,11 @@ public class ExcelYellow extends Yellow {
 				isBegin = true;
 			}
 		}*/
+	}
+
+	@Override
+	public void yellow(File file) {
+		
 	}
 
 }
