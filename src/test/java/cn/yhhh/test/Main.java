@@ -1,5 +1,7 @@
 package cn.yhhh.test;
 
+import java.io.File;
+
 public class Main {
 	
 	/** Alphabet 26位字母表 */
@@ -10,9 +12,9 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		int[][] i = new int[10][];
-		int[][] is = {{1,2},{3,4},{5,6,7}};
-		System.out.print(is[1][1]);
+		File file = new File("test/cell");
+		String[] list = file.list();
+		System.out.println();
 //		char c = " ".charAt(0);
 //		System.out.print(c);
 //		for(int i = 65; i < 91; i++) {

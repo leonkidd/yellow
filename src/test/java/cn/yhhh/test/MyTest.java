@@ -79,9 +79,13 @@ public class MyTest {
 				while (cells.hasNext()) {
 					Cell cell = cells.next();
 					// 内容应为单元格标识代码, e.g. $H2
-					String cellValue = ExcelUtils.getCellValue(cell).toString();
-					if (cellValue.startsWith("$")) {
-						cellPoses.add(cellValue.substring(1));
+					Object cellValue = ExcelUtils.getCellValue(cell);
+					if(cellValue == null) {
+						continue;
+					}
+					String value = cellValue.toString();
+					if (value.startsWith("$")) {
+						cellPoses.add(value.substring(1));
 					}
 				}
 			}
