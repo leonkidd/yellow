@@ -102,8 +102,9 @@ public class MyTest {
 				@Override
 				public boolean accept(File file) {
 					String filename = file.getName();
-					return filename.endsWith(".xls")
-							|| filename.endsWith(".xlsx") || file.isDirectory();
+					return !filename.equals(".DS_Store");
+					/*return filename.endsWith(".xls")
+							|| filename.endsWith(".xlsx") || file.isDirectory();*/
 				}
 			}, new ACallback() {
 				@Override

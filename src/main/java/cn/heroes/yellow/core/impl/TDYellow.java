@@ -10,6 +10,7 @@ import cn.heroes.yellow.core.Yellow;
 import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.entity.TDRow;
 import cn.heroes.yellow.entity.impl.FileInfo;
+import cn.heroes.yellow.exception.ParsingException;
 import cn.heroes.yellow.filler.Filler;
 import cn.heroes.yellow.intercepter.TDIntercepter;
 import cn.heroes.yellow.parser.TDParser;
@@ -38,8 +39,14 @@ public class TDYellow extends Yellow {
 
 	@Override
 	public void yellow(InputStream is, Info info) {
+		FileInfo fi = (FileInfo) info;
+		
 		// 调用解析器去解析InputStream
-		p.parse(is);
+		try {
+			p.parse(is);
+		} catch(ParsingException e) {
+			throw new ParsingException("分析文件[" + fi.file.getAbsolutePath() + "]出错", e);
+		}
 
 		// 是否已真正开始的标识
 		boolean isBegin = false;

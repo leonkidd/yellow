@@ -12,9 +12,12 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
+		String encoding = System.getProperty("file.encoding"); 
+		
 		File file = new File("test/cell");
 		String[] list = file.list();
-		System.out.println();
+		String s = new String(list[1].getBytes("UTF-8"), "UTF-8");
+		System.out.println(s);
 //		char c = " ".charAt(0);
 //		System.out.print(c);
 //		for(int i = 65; i < 91; i++) {
