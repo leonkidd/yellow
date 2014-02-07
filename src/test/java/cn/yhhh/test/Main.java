@@ -1,6 +1,7 @@
 package cn.yhhh.test;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 	
@@ -12,12 +13,17 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		String encoding = System.getProperty("file.encoding"); 
+		List<String> l = new ArrayList<String>();
+		l.add(3, "C");
+		System.out.println(l.get(0));
 		
-		File file = new File("test/cell");
-		String[] list = file.list();
-		String s = new String(list[1].getBytes("UTF-8"), "UTF-8");
-		System.out.println(s);
+		
+//		String encoding = System.getProperty("file.encoding"); 
+//		
+//		File file = new File("test/cell");
+//		String[] list = file.list();
+//		String s = new String(list[1].getBytes("UTF-8"), "UTF-8");
+//		System.out.println(s);
 //		char c = " ".charAt(0);
 //		System.out.print(c);
 //		for(int i = 65; i < 91; i++) {

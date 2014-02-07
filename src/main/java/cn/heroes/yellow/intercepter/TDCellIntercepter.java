@@ -1,10 +1,11 @@
 package cn.heroes.yellow.intercepter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,33 +26,39 @@ import cn.heroes.yellow.util.Chessboard;
  * @version 1.00, 2014-1-30
  */
 public abstract class TDCellIntercepter implements TDIntercepter {
-	
-	private static final Logger logger = LoggerFactory.getLogger(TDCellIntercepter.class);
+
+	private static final Logger logger = LoggerFactory
+			.getLogger(TDCellIntercepter.class);
 
 	/** 存储单元格位置信息的List, e.g. {"H1", "B2"} */
-	protected List<String> cellPoses;
+	protected Set<String> cellPoses;
 	/** 存储单元格位置信息的Map, key: RowNum (1-based), value: List[ColNum] */
 	private Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
 	/** 解析出来的单元格内容 */
 	private Map<String, Object> cellDatas = new HashMap<String, Object>();
 
-	//private int[][] i = new int[10][];
+	// private int[][] i = new int[10][];
 
 	/**
+	 * 传入参数为要去分析的单元格位置名称, e.g. H2.
 	 * 
 	 * @param cellPoses
 	 *            存储单元格位置信息的数组(顺序无关)
 	 */
 	public TDCellIntercepter(String[] cellPoses) {
-		this.cellPoses = Arrays.asList(cellPoses);
+		this.cellPoses = new HashSet<String>();
+		for (String cellpos : cellPoses) {
+			this.cellPoses.add(cellpos);
+		}
 	}
 
 	/**
+	 * 传入参数为要去分析的单元格位置名称, e.g. H2.
 	 * 
 	 * @param cellPoses
-	 *            存储单元格位置信息的List(顺序无关)
+	 *            存储单元格位置信息的Set
 	 */
-	public TDCellIntercepter(List<String> cellPoses) {
+	public TDCellIntercepter(Set<String> cellPoses) {
 		this.cellPoses = cellPoses;
 	}
 
@@ -130,8 +137,9 @@ public abstract class TDCellIntercepter implements TDIntercepter {
 
 	@Override
 	public void info(Info info) {
-		FileInfo fi = (FileInfo)info;
-		logger.info("开始处理[{}]目录下的文件[{}]", fi.file.getParent(), fi.file.getName());
+		FileInfo fi = (FileInfo) info;
+		logger.info("开始处理[{}]目录下的文件[{}]", fi.file.getParent(),
+				fi.file.getName());
 	}
 
 	@Override
