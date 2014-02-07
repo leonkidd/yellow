@@ -14,8 +14,11 @@ public class Main {
 	 */
 	public static void main(String[] args) throws Exception {
 		List<String> l = new ArrayList<String>();
-		l.add(3, "C");
-		System.out.println(l.get(0));
+		l.add(null);
+		l.add(null);
+		l.add("AA");
+		System.out.println(l.size());
+		System.out.println(l.get(2));
 		
 		
 //		String encoding = System.getProperty("file.encoding"); 

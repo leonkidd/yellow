@@ -21,10 +21,6 @@ public class MyTDCellIntercepter extends TDCellIntercepter {
 	@Override
 	public void callback(Map<String, Object> cellDatas) {
 		this.cellDatas = cellDatas;
-		for(String cellPos : cellPoses) {
-			Object value = cellDatas.get(cellPos);
-			System.out.println(cellPos + ", " + value);
-		}
 	}
 
 	@Override
