@@ -139,6 +139,7 @@ public class MyTest {
 			
 			// do with sheetCell
 
+			// TODO 用另一种方法更佳：先将cs变成每个$H2一个列表（每个文件是列表中的一个记录）, 再次迭代Sheet，查看$标识再一次加完（也就是一开始取$的时候不用记录sheetCell）。
 			
 			// 
 //			int ns = book.getNumberOfSheets();
