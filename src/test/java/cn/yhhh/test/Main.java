@@ -1,7 +1,13 @@
 package cn.yhhh.test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileInputStream;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import cn.heroes.jkit.utils.ExcelUtils;
 
 public class Main {
 	
@@ -13,12 +19,16 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		List<String> l = new ArrayList<String>();
-		l.add(null);
-		l.add(null);
-		l.add("AA");
-		System.out.println(l.size());
-		System.out.println(l.get(2));
+		
+		FileInputStream fis = new FileInputStream("template.xls");
+		Workbook book = ExcelUtils.create(fis);
+		fis.close();
+		
+		Sheet sheetAt = book.getSheetAt(0);
+		Row row = sheetAt.getRow(0);
+		Cell cell = row.getCell(0);
+		Object cellValue = ExcelUtils.getCellValue(cell);
+		System.out.println(cellValue);
 		
 		
 //		String encoding = System.getProperty("file.encoding"); 

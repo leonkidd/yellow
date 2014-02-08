@@ -1,5 +1,7 @@
 package cn.heroes.yellow.filler;
 
-public interface TDFiller extends Filler {
+import java.util.List;
+
+public interface TDFiller<T> extends Filler<List<T[]>> {
 
 }
