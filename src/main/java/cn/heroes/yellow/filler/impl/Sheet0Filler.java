@@ -2,9 +2,9 @@ package cn.heroes.yellow.filler.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -15,17 +15,12 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import cn.heroes.jkit.utils.ExcelUtils;
-import cn.heroes.yellow.entity.Info;
-import cn.heroes.yellow.entity.impl.FileInfo;
 import cn.heroes.yellow.filler.TDFiller;
 
 /**
  * Excel first sheet Filler with template. The data will be inserted after the
  * row with the <code>$</code> mark in the first cell(cell no. is 1). If there
  * is no <code>$</code> mark, the data will be filled after the end of sheet.
- * <p>
- * The <code>Info</code> is the saving <code>FileInfo</code>.
- * </p>
  * 
  * @author Leon Kidd
  * @version 1.00, 2014-2-8
@@ -84,7 +79,7 @@ public class Sheet0Filler implements TDFiller {
 	}
 
 	@Override
-	public void fill(List<Object[]> data, Info info) {
+	public void fill(List<Object[]> data, OutputStream output) {
 
 		// 创建Sheet
 		Sheet sheet = book.getSheetAt(0);
@@ -118,16 +113,6 @@ public class Sheet0Filler implements TDFiller {
 				sheet.removeRow(row);
 				break;
 			}
-
-			/*
-			 * 迭代cell,查看是否存在"开始fill"的标识 Iterator<Cell> cells =
-			 * row.cellIterator(); while (cells.hasNext()) { Cell cell =
-			 * cells.next(); if (cell == null) { continue; } Object cellValue =
-			 * ExcelUtils.getCellValue(cell); // 是否具有"开始fill"标识的单元格 if
-			 * (cellValue != null &&
-			 * cellValue.toString().startsWith(CODE_PREFIX)) { beginRowNum =
-			 * row.getRowNum(); // 删除有标识的那一行 sheet.removeRow(row); break; } }
-			 */
 		}
 
 		// core code
@@ -142,14 +127,10 @@ public class Sheet0Filler implements TDFiller {
 			}
 		}
 
-		// 输出文件
-		FileInfo fi = (FileInfo) info;
-		File output = fi.file;
+		// 输出结果Excel
 		try {
-			FileOutputStream fos = new FileOutputStream(output);
-			book.write(fos);
-			fos.close();
-		} catch (Exception e) {
+			book.write(output);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

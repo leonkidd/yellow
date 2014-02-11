@@ -1,16 +1,12 @@
 package cn.heroes.yellow.filler.impl;
 
+import java.io.OutputStream;
 import java.util.List;
 
-import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.filler.TDFiller;
 
 public class DelFiller implements TDFiller {
 
-	@Override
-	public void fill(List<Object[]> t, Info info) {
-
-	}
 
 	@Override
 	public void init() {
@@ -20,6 +16,11 @@ public class DelFiller implements TDFiller {
 	@Override
 	public void destroy() {
 
+	}
+
+	@Override
+	public void fill(List<Object[]> data, OutputStream os) {
+		
 	}
 
 }

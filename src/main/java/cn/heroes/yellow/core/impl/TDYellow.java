@@ -86,7 +86,7 @@ public class TDYellow extends Yellow {
 		// 分析结束, 获取需要填充的数据
 		FillObject<List<Object[]>> fo = i.over();
 		if (f != null) {
-			f.fill(fo.data, fo.info);
+			f.fill(fo.data, fo.os);
 		}
 	}
 

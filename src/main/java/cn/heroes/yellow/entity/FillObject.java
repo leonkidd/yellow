@@ -1,5 +1,7 @@
 package cn.heroes.yellow.entity;
 
+import java.io.OutputStream;
+
 /**
  * The Object which is gave by <code>Intercepter#over()</code>, and used to fill
  * <code>data</code> into a media specified by <code>info<code>.
@@ -9,9 +11,9 @@ package cn.heroes.yellow.entity;
  */
 public class FillObject<T> {
 	/**
-	 * Information about saving media.
+	 * The <code>OutputStream</code> that data save into.
 	 */
-	public Info info;
+	public OutputStream os;
 	/**
 	 * Data to fill.
 	 */

@@ -1,7 +1,8 @@
 package cn.heroes.yellow.filler;
 
+import java.io.OutputStream;
+
 import cn.heroes.yellow.NObject;
-import cn.heroes.yellow.entity.Info;
 
 /**
  * The <code>Filler</code> interface should be implemented by all Fillers. Fill
@@ -17,8 +18,8 @@ public interface Filler<T> extends NObject {
 	 * 
 	 * @param t
 	 *            Data content
-	 * @param info
-	 *            Information about saving media.
+	 * @param os
+	 *            The <code>OutputStream</code> that data save into.
 	 */
-	void fill(T data, Info info);
+	void fill(T data, OutputStream os);
 }
