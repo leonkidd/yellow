@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class Sheet0Filler implements TDFiller {
 
 	private static final String CODE_PREFIX = "$";
 
-	private File template;
+	private Workbook book;
 
 	/**
 	 * Choose a template to fill data.
@@ -43,14 +44,10 @@ public class Sheet0Filler implements TDFiller {
 	 *            Excel file.
 	 */
 	public Sheet0Filler(File template) {
-		this.template = template;
-	}
-
-	@Override
-	public void fill(List<Object[]> data, Info info) {
 		// create book if there is no template.
-		Workbook book = null;
-		if (template != null) {
+		if (template == null) {
+			book = new HSSFWorkbook();
+		} else {
 			FileInputStream fis = null;
 			try {
 				fis = new FileInputStream(template);
@@ -64,9 +61,30 @@ public class Sheet0Filler implements TDFiller {
 					e.printStackTrace();
 				}
 			}
-		} else {
-			book = new HSSFWorkbook();
 		}
+	}
+
+	/**
+	 * Choose a template to fill data.
+	 * 
+	 * @param template
+	 *            the Excel template file. <code>NULL</code> if want a blank
+	 *            Excel file.
+	 */
+	public Sheet0Filler(InputStream template) {
+		if (template == null) {
+			book = new HSSFWorkbook();
+		} else {
+			try {
+				book = ExcelUtils.create(template);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public void fill(List<Object[]> data, Info info) {
 
 		// 创建Sheet
 		Sheet sheet = book.getSheetAt(0);
@@ -81,16 +99,16 @@ public class Sheet0Filler implements TDFiller {
 		Iterator<Row> rows = sheet.rowIterator();
 		while (rows.hasNext()) {
 			// 始终保持在目前这行的下一行
-			// 这样当没有$标识出现的时候,就在最后一行下开始Fill 
+			// 这样当没有$标识出现的时候,就在最后一行下开始Fill
 			beginRowNum++;
-			
+
 			Row row = rows.next();
 			// Get first cell.
 			Cell cell = row.getCell(0);
-			if(cell == null) {
+			if (cell == null) {
 				continue;
 			}
-			
+
 			Object cellValue = ExcelUtils.getCellValue(cell);
 			// 是否具有"开始fill"标识的单元格
 			if (cellValue != null
@@ -101,23 +119,15 @@ public class Sheet0Filler implements TDFiller {
 				break;
 			}
 
-			/* 迭代cell,查看是否存在"开始fill"的标识
-			Iterator<Cell> cells = row.cellIterator();
-			while (cells.hasNext()) {
-				Cell cell = cells.next();
-				if (cell == null) {
-					continue;
-				}
-				Object cellValue = ExcelUtils.getCellValue(cell);
-				// 是否具有"开始fill"标识的单元格
-				if (cellValue != null
-						&& cellValue.toString().startsWith(CODE_PREFIX)) {
-					beginRowNum = row.getRowNum();
-					// 删除有标识的那一行
-					sheet.removeRow(row);
-					break;
-				}
-			}*/
+			/*
+			 * 迭代cell,查看是否存在"开始fill"的标识 Iterator<Cell> cells =
+			 * row.cellIterator(); while (cells.hasNext()) { Cell cell =
+			 * cells.next(); if (cell == null) { continue; } Object cellValue =
+			 * ExcelUtils.getCellValue(cell); // 是否具有"开始fill"标识的单元格 if
+			 * (cellValue != null &&
+			 * cellValue.toString().startsWith(CODE_PREFIX)) { beginRowNum =
+			 * row.getRowNum(); // 删除有标识的那一行 sheet.removeRow(row); break; } }
+			 */
 		}
 
 		// core code
