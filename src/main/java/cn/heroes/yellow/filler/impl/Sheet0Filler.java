@@ -3,6 +3,7 @@ package cn.heroes.yellow.filler.impl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,14 +19,18 @@ import cn.heroes.yellow.entity.impl.FileInfo;
 import cn.heroes.yellow.filler.TDFiller;
 
 /**
- * Excel first sheet Filler with template excel file. The data will be filled
- * begin from the <code>$</code> mark in the first (cell number is 0) cell of template file.
+ * Excel first sheet Filler with template. The data will be inserted after the
+ * row with the <code>$</code> mark in the first cell(cell no. is 1). If there
+ * is no <code>$</code> mark, the data will be filled after the end of sheet.
+ * <p>
+ * The <code>Info</code> is the saving <code>FileInfo</code>.
+ * </p>
  * 
  * @author Leon Kidd
  * @version 1.00, 2014-2-8
  */
-public class Sheet0Filler implements TDFiller<Object> {
-	
+public class Sheet0Filler implements TDFiller {
+
 	private static final String CODE_PREFIX = "$";
 
 	private File template;
@@ -43,15 +48,21 @@ public class Sheet0Filler implements TDFiller<Object> {
 
 	@Override
 	public void fill(List<Object[]> data, Info info) {
-		// 创建 book
+		// create book if there is no template.
 		Workbook book = null;
-		if (template == null) {
+		if (template != null) {
+			FileInputStream fis = null;
 			try {
-				FileInputStream fis = new FileInputStream(template);
+				fis = new FileInputStream(template);
 				book = ExcelUtils.create(fis);
-				fis.close();
 			} catch (Exception e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					fis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		} else {
 			book = new HSSFWorkbook();
@@ -62,40 +73,60 @@ public class Sheet0Filler implements TDFiller<Object> {
 		if (sheet == null) {
 			sheet = book.createSheet("Sheet1");
 		}
-		
-		// 开始Fill行号
+
+		// 开始Fill的行号
 		int beginRowNum = 0;
-		
+
 		// 迭代row
 		Iterator<Row> rows = sheet.rowIterator();
-		while(rows.hasNext()) {
-			Row row = rows.next();
+		while (rows.hasNext()) {
+			// 始终保持在目前这行的下一行
+			// 这样当没有$标识出现的时候,就在最后一行下开始Fill 
+			beginRowNum++;
 			
-			// 迭代cell,查看是否存在"开始fill"的标识
+			Row row = rows.next();
+			// Get first cell.
+			Cell cell = row.getCell(0);
+			if(cell == null) {
+				continue;
+			}
+			
+			Object cellValue = ExcelUtils.getCellValue(cell);
+			// 是否具有"开始fill"标识的单元格
+			if (cellValue != null
+					&& cellValue.toString().startsWith(CODE_PREFIX)) {
+				beginRowNum = row.getRowNum();
+				// 删除有标识的那一行
+				sheet.removeRow(row);
+				break;
+			}
+
+			/* 迭代cell,查看是否存在"开始fill"的标识
 			Iterator<Cell> cells = row.cellIterator();
-			while(cells.hasNext()) {
+			while (cells.hasNext()) {
 				Cell cell = cells.next();
-				if(cell == null) {
+				if (cell == null) {
 					continue;
 				}
 				Object cellValue = ExcelUtils.getCellValue(cell);
 				// 是否具有"开始fill"标识的单元格
-				if(cellValue != null && cellValue.toString().startsWith(CODE_PREFIX)) {
+				if (cellValue != null
+						&& cellValue.toString().startsWith(CODE_PREFIX)) {
 					beginRowNum = row.getRowNum();
 					// 删除有标识的那一行
 					sheet.removeRow(row);
 					break;
 				}
-			}
+			}*/
 		}
-		
+
 		// core code
 		// TODO 文件尾部 | 65535行满
-		for(int i = 0; i < data.size(); i++) {
+		for (int i = 0; i < data.size(); i++) {
 			Object[] os = data.get(i);
 			Row row = sheet.createRow(beginRowNum + i);
-			
-			for(int j = 0; j < os.length; j++) {
+
+			for (int j = 0; j < os.length; j++) {
 				Cell cell = row.createCell(j);
 				cell.setCellValue(os[j] == null ? "" : os[j].toString());
 			}

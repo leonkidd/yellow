@@ -5,13 +5,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import cn.heroes.yellow.core.Yellow;
+import cn.heroes.yellow.entity.FillObject;
 import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.entity.TDRow;
 import cn.heroes.yellow.entity.impl.FileInfo;
 import cn.heroes.yellow.exception.ParsingException;
-import cn.heroes.yellow.filler.Filler;
+import cn.heroes.yellow.filler.TDFiller;
 import cn.heroes.yellow.intercepter.TDIntercepter;
 import cn.heroes.yellow.parser.TDParser;
 
@@ -28,9 +30,9 @@ public class TDYellow extends Yellow {
 	/** 拦截器对象 */
 	private TDIntercepter i;
 	/** 填充器对象 */
-	private Filler f;
+	private TDFiller f;
 
-	public TDYellow(TDParser parser, TDIntercepter intercepter, Filler filler) {
+	public TDYellow(TDParser parser, TDIntercepter intercepter, TDFiller filler) {
 		super(parser, intercepter, filler);
 		this.p = parser;
 		this.i = intercepter;
@@ -40,12 +42,13 @@ public class TDYellow extends Yellow {
 	@Override
 	public void yellow(InputStream is, Info info) {
 		FileInfo fi = (FileInfo) info;
-		
+
 		// 调用解析器去解析InputStream
 		try {
 			p.parse(is);
-		} catch(ParsingException e) {
-			throw new ParsingException("分析文件[" + fi.file.getAbsolutePath() + "]出错", e);
+		} catch (ParsingException e) {
+			throw new ParsingException("分析文件[" + fi.file.getAbsolutePath()
+					+ "]出错", e);
 		}
 
 		// 是否已真正开始的标识
@@ -54,7 +57,7 @@ public class TDYellow extends Yellow {
 		// 迭代row
 		TDRow row = null;
 
-		i.info(info);
+		i.inputInfo(info);
 		while ((row = p.next()) != null) {
 
 			// 是否已真正开始
@@ -79,8 +82,12 @@ public class TDYellow extends Yellow {
 				i.row(row);
 			}
 		}
-		// 分析结束
-		i.over();
+
+		// 分析结束, 获取需要填充的数据
+		FillObject<List<Object[]>> fo = i.over();
+		if (f != null) {
+			f.fill(fo.data, fo.info);
+		}
 	}
 
 	@Override

@@ -5,11 +5,11 @@ import java.util.List;
 import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.filler.TDFiller;
 
-public class DelFiller implements TDFiller<String> {
+public class DelFiller implements TDFiller {
 
 	@Override
-	public void fill(List<String[]> t, Info info) {
-		
+	public void fill(List<Object[]> t, Info info) {
+
 	}
 
 	@Override

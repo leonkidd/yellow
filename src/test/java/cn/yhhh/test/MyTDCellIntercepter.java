@@ -13,7 +13,7 @@ public class MyTDCellIntercepter extends TDCellIntercepter {
 	}
 
 	private Map<String, Object> cellDatas;
-	
+
 	public Map<String, Object> getCellDatas() {
 		return cellDatas;
 	}
@@ -24,8 +24,8 @@ public class MyTDCellIntercepter extends TDCellIntercepter {
 	}
 
 	@Override
-	public void info(Info info) {
-		super.info(info);
+	public void inputInfo(Info info) {
+		super.inputInfo(info);
 	}
 
 }

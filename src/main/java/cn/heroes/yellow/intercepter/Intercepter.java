@@ -1,6 +1,7 @@
 package cn.heroes.yellow.intercepter;
 
 import cn.heroes.yellow.NObject;
+import cn.heroes.yellow.entity.FillObject;
 import cn.heroes.yellow.entity.Info;
 
 /**
@@ -14,7 +15,7 @@ import cn.heroes.yellow.entity.Info;
  * @author Leon Kidd
  * @version 1.00, 2014-1-30
  */
-public interface Intercepter extends NObject {
+public interface Intercepter<T> extends NObject {
 
 	/**
 	 * 在Parser要开始化析某个内容时调用, 一般是放入一些Parser正要解析的内容主体相关的信息.
@@ -22,10 +23,15 @@ public interface Intercepter extends NObject {
 	 * @param info
 	 *            信息, 如文件名等
 	 */
-	void info(Info info);
+	void inputInfo(Info info);
 
 	/**
-	 * The parsing is over now. 解析工作已结束.
+	 * Invoke when the parsing is over, and return the data for filling.
+	 * 
+	 * @return the <code>FillObject</code> object. It contain the data to fill
+	 *         and the information about saving media. Can also return null when
+	 *         there is no filler object in yellow.
+	 * @see cn.heroes.yellow.filler.Filler
 	 */
-	void over();
+	FillObject<T> over();
 }

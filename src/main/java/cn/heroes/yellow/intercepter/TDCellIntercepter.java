@@ -10,6 +10,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cn.heroes.yellow.entity.FillObject;
 import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.entity.TDRow;
 import cn.heroes.yellow.entity.impl.FileInfo;
@@ -92,8 +93,9 @@ public abstract class TDCellIntercepter implements TDIntercepter {
 	}
 
 	@Override
-	public void over() {
+	public FillObject<List<Object[]>> over() {
 		callback(cellDatas);
+		return null;
 	}
 
 	@Override
@@ -136,7 +138,7 @@ public abstract class TDCellIntercepter implements TDIntercepter {
 	}
 
 	@Override
-	public void info(Info info) {
+	public void inputInfo(Info info) {
 		FileInfo fi = (FileInfo) info;
 		logger.info("开始处理[{}]目录下的文件[{}]", fi.file.getParent(),
 				fi.file.getName());

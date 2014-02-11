@@ -1,10 +1,11 @@
 package cn.heroes.yellow.intercepter;
 
+import java.util.List;
+
 import cn.heroes.yellow.entity.TDRow;
 
 /**
- * Two-Dimensional Table Intercepter interface<br/>
- * 二维表格拦截器, 逐行处理.
+ * Two-Dimensional Table Intercepter interface, iterate every row.
  * <p>
  * Priority Level between <code>begin</code>, <code>ignore</code> and
  * <code>end</code> is begin > end > ignore, and begin once.
@@ -25,7 +26,7 @@ import cn.heroes.yellow.entity.TDRow;
  * @version 1.00, 2014-1-28
  * @since 1.0
  */
-public interface TDIntercepter extends Intercepter {
+public interface TDIntercepter extends Intercepter<List<Object[]>> {
 
 	/**
 	 * 

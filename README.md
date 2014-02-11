@@ -17,11 +17,18 @@ Yellow
 ### Parser 解析器
 只关注文件格式, 将文件内容统一成标准格式交由Intercepter处理.
 
-### Interceptor 拦截器
+### Intercepter 拦截器
 只关注标准格式下的内容数据处理成另一种标准格式, 具体的处理规则一般由框架使用者的业务逻辑来确定实现.
 	
 ### Filler 填充器
 只关注将拦截器输出的标准格式内容, 转化成文件.
+
+### Info
+输入流或输入文件的信息, 与Yellow, Intercepter, Filler相关, 与Parser无关（是否对于Excel实现中会相关，因为有Sheet?） 
+
+### Yellow 调节器
+全局调度, 接收文件或输入流信息, 将流将给Parser解析, 再将结果与信息一起交由Intercepter处理,
+在调用Intercepter的over方法返回FillObject对象后, 用Filler将其中的data填入info指定的介质中.
 
 
 自带实现
