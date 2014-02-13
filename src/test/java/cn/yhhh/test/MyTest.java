@@ -23,7 +23,7 @@ import cn.heroes.jkit.utils.FileUtils;
 import cn.heroes.yellow.core.Yellow;
 import cn.heroes.yellow.core.impl.TDYellow;
 import cn.heroes.yellow.parser.TDParser;
-import cn.heroes.yellow.parser.impl.Sheet0Parser;
+import cn.heroes.yellow.parser.impl.SheetNParser;
 
 public class MyTest extends ACallback {
 	private static MyTDCellIntercepter interceptor = null;
@@ -64,33 +64,32 @@ public class MyTest extends ACallback {
 				
 				// 第四行
 				Row row = sheet.getRow(3);
-				if (row == null) {
-					continue;
-				}
-				// 迭代单元格
-				Iterator<Cell> cells = row.cellIterator();
-				while (cells.hasNext()) {
-					Cell cell = cells.next();
-					// 内容应为单元格标识代码, e.g. $H2
-					Object cellValue = ExcelUtils.getCellValue(cell);
-					if(cellValue == null) {
-						continue;
-					}
-					String value = cellValue.toString();
-					if (value.startsWith("$")) {
-						String cellname = value.substring(1);
-						MyCell mc = new MyCell();
-						mc.col = cell.getColumnIndex();
-						mc.content = cellname;
-						ss.add(mc);
-						cellPoses.add(cellname);
+				if (row != null) {
+					// 迭代单元格
+					Iterator<Cell> cells = row.cellIterator();
+					while (cells.hasNext()) {
+						Cell cell = cells.next();
+						// 内容应为单元格标识代码, e.g. $H2
+						Object cellValue = ExcelUtils.getCellValue(cell, book);
+						if(cellValue == null) {
+							continue;
+						}
+						String value = cellValue.toString();
+						if (value.startsWith("$")) {
+							String cellname = value.substring(1);
+							MyCell mc = new MyCell();
+							mc.col = cell.getColumnIndex();
+							mc.content = cellname;
+							ss.add(mc);
+							cellPoses.add(cellname);
+						}
 					}
 				}
 				
 				sheetCell.add(ss);
 			}
 
-			TDParser parser = new Sheet0Parser(); //new ExcelParserImpl();
+			TDParser parser = new SheetNParser("Sheet1"); //new ExcelParserImpl();
 			// Singleton ? TODO
 			interceptor = new MyTDCellIntercepter(cellPoses);
 			// 保存各文件中解析出来的单元格内容信息Map{key: H2, value: 内容}, 一个Map是从一个文件中解析出来的.
@@ -123,6 +122,11 @@ public class MyTest extends ACallback {
 				
 				// 各列中存的单元格位置名称
 				List<MyCell> mcs = sheetCell.get(i);
+				
+				if(mcs.size() == 0) {
+					// 没有特殊$单元格
+					continue;
+				}
 
 				// 删除有标识的那一行
 				sheet.removeRow(sheet.getRow(3));
