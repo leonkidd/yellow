@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -42,6 +43,7 @@ public class MyTest extends ACallback {
 			/** 列号, 0-based*/
 			int col;
 			String content;
+			CellStyle style;
 		}
 		
 		// -------------  获取单元格名字列表
@@ -70,7 +72,7 @@ public class MyTest extends ACallback {
 					while (cells.hasNext()) {
 						Cell cell = cells.next();
 						// 内容应为单元格标识代码, e.g. $H2
-						Object cellValue = ExcelUtils.getCellValue(cell, book);
+						Object cellValue = ExcelUtils.getCellValue(cell);
 						if(cellValue == null) {
 							continue;
 						}
@@ -80,6 +82,7 @@ public class MyTest extends ACallback {
 							MyCell mc = new MyCell();
 							mc.col = cell.getColumnIndex();
 							mc.content = cellname;
+							mc.style = cell.getCellStyle();
 							ss.add(mc);
 							cellPoses.add(cellname);
 						}
@@ -143,12 +146,21 @@ public class MyTest extends ACallback {
 						int col = mc.col;
 						// 该单元格内容, e.g. H2
 						String cellname = mc.content;
+						// 单元格样式
+						CellStyle style = mc.style;
 						// 单元格内容所指向的单元格下所有文件记录
 						List<Object> list = cs.get(cellname);
 
 						Cell cell = row.createCell(col);
+						// 设置单元格样式
+						cell.setCellStyle(style);
 						Object o = list.get(j);
-						cell.setCellValue(o == null ? "" : o.toString());
+						
+						try {
+							cell.setCellValue(Integer.parseInt(o.toString()));	
+						} catch(Exception e) {
+							cell.setCellValue(o == null ? "" : o.toString());
+						}
 					}
 				}
 			}
