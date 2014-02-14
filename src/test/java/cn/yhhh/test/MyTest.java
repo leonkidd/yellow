@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -38,15 +39,15 @@ public class MyTest extends ACallback {
 	 * 即通过编写好单元格名称（如: B2, C3）
 	 */
 	public static void main(String[] args) {
-		
+
 		class MyCell {
-			/** 列号, 0-based*/
+			/** 列号, 0-based */
 			int col;
 			String content;
 			CellStyle style;
 		}
-		
-		// -------------  获取单元格名字列表
+
+		// ------------- 获取单元格名字列表
 		// 模版文件
 		File tempate = new File("test/template.xls");
 		try {
@@ -54,16 +55,16 @@ public class MyTest extends ACallback {
 			int numberOfSheets = book.getNumberOfSheets();
 
 			// 用于存储模版的各Sheet中，有指定$标识的单元格信息。外层List是sheet，中层List是列
-			List<List<MyCell>> sheetCell = new ArrayList<List<MyCell>>(); 
+			List<List<MyCell>> sheetCell = new ArrayList<List<MyCell>>();
 
 			// 迭代Sheet
 			for (int i = 0; i < numberOfSheets; i++) {
 				Sheet sheet = book.getSheetAt(i);
-				
+
 				// 用于保存单元格位置信息, 认为列号不会超过26个.
 				// String[] ss = new String[26];
 				List<MyCell> ss = new ArrayList<MyCell>();
-				
+
 				// 第四行
 				Row row = sheet.getRow(3);
 				if (row != null) {
@@ -73,7 +74,7 @@ public class MyTest extends ACallback {
 						Cell cell = cells.next();
 						// 内容应为单元格标识代码, e.g. $H2
 						Object cellValue = ExcelUtils.getCellValue(cell);
-						if(cellValue == null) {
+						if (cellValue == null) {
 							continue;
 						}
 						String value = cellValue.toString();
@@ -88,21 +89,23 @@ public class MyTest extends ACallback {
 						}
 					}
 				}
-				
+
 				sheetCell.add(ss);
 			}
 
-			TDParser parser = new SheetNParser("Sheet1"); //new ExcelParserImpl();
+			TDParser parser = new SheetNParser("Sheet1"); // new
+															// ExcelParserImpl();
 			// Singleton ? TODO
 			interceptor = new MyTDCellIntercepter(cellPoses);
 			// 保存各文件中解析出来的单元格内容信息Map{key: H2, value: 内容}, 一个Map是从一个文件中解析出来的.
-			//final List<Map<String, Object>> cs = new ArrayList<Map<String, Object>>();
+			// final List<Map<String, Object>> cs = new ArrayList<Map<String,
+			// Object>>();
 			cs = new HashMap<String, List<Object>>();
 
 			yellow = new TDYellow(parser, interceptor, null);
-			
+
 			MyTest mt = new MyTest();
-			
+
 			// 要分析的文件所在目录
 			File dir = new File("test/cell");
 			FileUtils.recursion(dir, new FileFilter() {
@@ -115,18 +118,19 @@ public class MyTest extends ACallback {
 				}
 			}, mt);
 
-			// 另一种方法更佳：先将cs变成每个$H2一个列表（每个文件是列表中的一个记录）, 再次迭代Sheet，查看$标识再一次加完（也就是一开始取$的时候不用记录sheetCell）。
+			// 另一种方法更佳：先将cs变成每个$H2一个列表（每个文件是列表中的一个记录）,
+			// 再次迭代Sheet，查看$标识再一次加完（也就是一开始取$的时候不用记录sheetCell）。
 			// 两种方法结束，各取优点
 
 			// 迭代Sheet
-			for(int i = 0; i < sheetCell.size(); i++) {
+			for (int i = 0; i < sheetCell.size(); i++) {
 				// 对应的sheet
 				Sheet sheet = book.getSheetAt(i);
-				
+
 				// 各列中存的单元格位置名称
 				List<MyCell> mcs = sheetCell.get(i);
-				
-				if(mcs.size() == 0) {
+
+				if (mcs.size() == 0) {
 					// 没有特殊$单元格
 					continue;
 				}
@@ -134,14 +138,15 @@ public class MyTest extends ACallback {
 				// 删除有标识的那一行
 				sheet.removeRow(sheet.getRow(3));
 				// 按分析文件的个数，创建Row
-				for(int j = 0; j < length; j++) {
-//					Row row = sheet.createRow(sheet.getLastRowNum() + 1);
+				for (int j = 0; j < length; j++) {
+					// Row row = sheet.createRow(sheet.getLastRowNum() + 1);
 					int rowNum = j + 3; // 0-based
 					Row row = sheet.getRow(rowNum);
-					if(row == null) row = sheet.createRow(rowNum);
+					if (row == null)
+						row = sheet.createRow(rowNum);
 
 					// 有标识单元格
-					for(MyCell mc : mcs) {
+					for (MyCell mc : mcs) {
 						// 该单元格自身所在列号
 						int col = mc.col;
 						// 该单元格内容, e.g. H2
@@ -152,30 +157,35 @@ public class MyTest extends ACallback {
 						List<Object> list = cs.get(cellname);
 
 						Cell cell = row.createCell(col);
+						Object o = list.get(j);
+
+						if (o.toString().length() > 15) {
+//							DataFormat df = book.createDataFormat();
+//							style.setDataFormat(df.getFormat("@"));
+							cell.setCellValue(o == null ? "" : o.toString());
+						} else {
+							try {
+								cell.setCellValue(Double.parseDouble(o.toString()));
+							} catch (Exception e) {
+								cell.setCellValue(o == null ? "" : o.toString());
+							}
+						}
 						// 设置单元格样式
 						cell.setCellStyle(style);
-						Object o = list.get(j);
-						
-						try {
-							cell.setCellValue(Integer.parseInt(o.toString()));	
-						} catch(Exception e) {
-							cell.setCellValue(o == null ? "" : o.toString());
-						}
 					}
 				}
 			}
-			
-			
+
 			// 保存文件
 			FileOutputStream fos = new FileOutputStream("$.xls");
 			book.write(fos);
 			fos.close();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/** 分析的文件个数 */
 	private static int length = 0;
 
@@ -184,13 +194,13 @@ public class MyTest extends ACallback {
 		File file = (File) t[0];
 		yellow.yellow(file);
 		length++;
-		
+
 		Map<String, Object> cellDatas = interceptor.getCellDatas();
-		//cs.add(cellDatas);
-		for(String cellPos : cellPoses) {
+		// cs.add(cellDatas);
+		for (String cellPos : cellPoses) {
 			Object value = cellDatas.get(cellPos);
 			List<Object> list = cs.get(cellPos);
-			if(list == null) {
+			if (list == null) {
 				list = new ArrayList<Object>();
 				cs.put(cellPos, list);
 			}
