@@ -13,7 +13,6 @@ import java.util.Set;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -27,6 +26,12 @@ import cn.heroes.yellow.core.impl.TDYellow;
 import cn.heroes.yellow.parser.TDParser;
 import cn.heroes.yellow.parser.impl.SheetNParser;
 
+/**
+ * 清单汇总
+ * 
+ * @author Leon Kidd
+ * @version 1.00, 2014-2-14
+ */
 public class MyTest extends ACallback {
 	private static MyTDCellIntercepter interceptor = null;
 	private static Map<String, List<Object>> cs = null;
