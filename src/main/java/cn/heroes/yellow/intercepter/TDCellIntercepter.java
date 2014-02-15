@@ -7,13 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import cn.heroes.yellow.entity.FillObject;
 import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.entity.TDRow;
-import cn.heroes.yellow.entity.impl.FileInfo;
 import cn.heroes.yellow.util.Chessboard;
 
 /**
@@ -26,10 +22,8 @@ import cn.heroes.yellow.util.Chessboard;
  * @author Leon Kidd
  * @version 1.00, 2014-1-30
  */
-public abstract class TDCellIntercepter implements TDIntercepter {
-
-	private static final Logger logger = LoggerFactory
-			.getLogger(TDCellIntercepter.class);
+public abstract class TDCellIntercepter<F extends Info<?>> implements
+		TDIntercepter<F> {
 
 	/** 存储单元格位置信息的List, e.g. {"H1", "B2"} */
 	protected Set<String> cellPoses;
@@ -135,13 +129,6 @@ public abstract class TDCellIntercepter implements TDIntercepter {
 	@Override
 	public boolean ignore(TDRow row) {
 		return false;
-	}
-
-	@Override
-	public void inputInfo(Info info) {
-		FileInfo fi = (FileInfo) info;
-		logger.info("开始处理[{}]目录下的文件[{}]", fi.file.getParent(),
-				fi.file.getName());
 	}
 
 	@Override

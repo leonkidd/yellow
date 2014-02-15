@@ -9,8 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.heroes.jkit.utils.ExcelUtils;
+import cn.heroes.yellow.entity.TDPage;
 import cn.heroes.yellow.exception.ParsingException;
-import cn.heroes.yellow.parser.ExcelParser;
+import cn.heroes.yellow.parser.NTDParser;
 import cn.heroes.yellow.parser.TDParser;
 
 /**
@@ -22,10 +23,10 @@ import cn.heroes.yellow.parser.TDParser;
  * @author Leon Kidd
  * @version 1.00, 2014-2-2
  */
-public class ExcelParserImpl implements ExcelParser {
+public class ExcelParser implements NTDParser {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(ExcelParserImpl.class);
+			.getLogger(ExcelParser.class);
 
 	@Override
 	public void init() {
@@ -43,7 +44,7 @@ public class ExcelParserImpl implements ExcelParser {
 	private Sheet sheet = null;
 
 	@Override
-	public Iterator<TDParser> parse(InputStream is) throws ParsingException {
+	public Iterator<TDPage> parse(InputStream is) throws ParsingException {
 		try {
 			book = ExcelUtils.create(is);
 			int numberOfSheets = book.getNumberOfSheets();

@@ -5,11 +5,12 @@ import cn.heroes.yellow.entity.FillObject;
 import cn.heroes.yellow.entity.Info;
 
 /**
- * The <code>Interceptor</code> interface should be implemented by all
- * Interceptors. Handle the data parsed by <code>Parser</code>.
+ * The <tt>Interceptor</tt> interface should be implemented by all Interceptors.
+ * Handle the data parsed by {@link cn.heroes.yellow.parser.Parser}.
  * <p>
- * The <code>T</code> is the type of data which is return by <code>over</code>
- * method and used by <code>Filler</code>。
+ * The <tt>T</tt> is the type of data which is return by <code>over</code>
+ * method and used by {@link cn.heroes.yellow.filler.Filler}. The <tt>F</tt> is
+ * the type of info about object intercepted.
  * <p/>
  * <p>
  * 拦截器, 上接<code>Parser</code>, 下接<code>Filler</code>, 只关注标准格式下的内容数据处理,
@@ -19,7 +20,7 @@ import cn.heroes.yellow.entity.Info;
  * @author Leon Kidd
  * @version 1.00, 2014-1-30
  */
-public interface Intercepter<T> extends NObject {
+public interface Intercepter<T, F extends Info> extends NObject {
 
 	/**
 	 * 在Parser要开始化析某个内容时调用, 一般是放入一些Parser正要解析的内容主体相关的信息.
@@ -27,7 +28,7 @@ public interface Intercepter<T> extends NObject {
 	 * @param info
 	 *            信息, 如文件名等
 	 */
-	void inputInfo(Info info);
+	void info(F info);
 
 	/**
 	 * Invoke when the parsing is over, and return the data for filling.

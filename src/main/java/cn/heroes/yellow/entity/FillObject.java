@@ -13,9 +13,25 @@ public class FillObject<T> {
 	/**
 	 * The <code>OutputStream</code> that data save into.
 	 */
-	public OutputStream os;
+	private OutputStream os;
 	/**
 	 * Data to fill.
 	 */
-	public T data;
+	private T data;
+
+	public OutputStream getOutputStream() {
+		return os;
+	}
+
+	public void setOutputStream(OutputStream os) {
+		this.os = os;
+	}
+
+	public T getData() {
+		return data;
+	}
+
+	public void setData(T data) {
+		this.data = data;
+	}
 }

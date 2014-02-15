@@ -18,7 +18,7 @@ public abstract class Yellow {
 	/** 解析器对象 */
 	protected Parser<?> p;
 	/** 拦截器对象 */
-	protected Intercepter i;
+	protected Intercepter<?, ?> i;
 	/** 填充器对象 */
 	protected Filler f;
 
@@ -29,7 +29,7 @@ public abstract class Yellow {
 	 * @param interceptor
 	 * @param filler
 	 */
-	public Yellow(Parser<?> parser, Intercepter intercepter, Filler filler) {
+	public Yellow(Parser<?> parser, Intercepter<?, ?> intercepter, Filler filler) {
 		this.p = parser;
 		this.i = intercepter;
 		this.f = filler;
@@ -46,7 +46,7 @@ public abstract class Yellow {
 	 * @param is
 	 * @param info
 	 */
-	public abstract void yellow(InputStream is, Info info);
+	public abstract void yellow(InputStream is, Info<?> info);
 
 	/**
 	 * 程序入口放法，处理指定数文件

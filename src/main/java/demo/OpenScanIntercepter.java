@@ -27,8 +27,8 @@ public class OpenScanIntercepter implements TDIntercepter {
 	@Override
 	public FillObject<List<Object[]>> over() {
 		FillObject<List<Object[]>> fo = new FillObject<List<Object[]>>();
-		fo.os = os;
-		fo.data = data;
+		fo.setData(data);
+		fo.setOutputStream(os);
 		return fo;
 	}
 

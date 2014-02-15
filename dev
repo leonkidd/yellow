@@ -13,6 +13,7 @@
 !! 批量处理文件，如一整个目录，并提供标识(目录，文件名!，Sheet名!)
 !!! Info, FileInfo 变成T, 即File和IO流如何与各组件匹配, 应以IO主核心, File为辅
 !!! use CellReference instead Chessboard, and use it rebuild TDCellIntercepter
+!! 整理注释，整理构架思路
 
 !!!方案
 	1.使用统一设计标准，TD*（TDParser,TDIntercepter,TDYellow）, Excel*（ExeclParser,ExcelIntercepter,ExcelYellow）等相互独立,而又都实现了Parser, Yellow, Intercepter

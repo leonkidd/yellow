@@ -28,11 +28,11 @@ public class TDYellow extends Yellow {
 	/** 解析器对象 */
 	private TDParser p;
 	/** 拦截器对象 */
-	private TDIntercepter i;
+	private TDIntercepter<Info<?>> i;
 	/** 填充器对象 */
 	private TDFiller f;
 
-	public TDYellow(TDParser parser, TDIntercepter intercepter, TDFiller filler) {
+	public TDYellow(TDParser parser, TDIntercepter<Info<?>> intercepter, TDFiller filler) {
 		super(parser, intercepter, filler);
 		this.p = parser;
 		this.i = intercepter;
@@ -40,15 +40,12 @@ public class TDYellow extends Yellow {
 	}
 
 	@Override
-	public void yellow(InputStream is, Info info) {
-		FileInfo fi = (FileInfo) info;
-
+	public void yellow(InputStream is, Info<?> info) {
 		// 调用解析器去解析InputStream
 		try {
 			p.parse(is);
 		} catch (ParsingException e) {
-			throw new ParsingException("分析文件[" + fi.file.getAbsolutePath()
-					+ "]出错", e);
+			throw new ParsingException("分析文件[" + info.id() + "]出错", e);
 		}
 
 		// 是否已真正开始的标识
@@ -57,7 +54,7 @@ public class TDYellow extends Yellow {
 		// 迭代row
 		TDRow row = null;
 
-		i.inputInfo(info);
+		i.info(info);
 		while ((row = p.next()) != null) {
 
 			// 是否已真正开始
@@ -86,7 +83,7 @@ public class TDYellow extends Yellow {
 		// 分析结束, 获取需要填充的数据
 		FillObject<List<Object[]>> fo = i.over();
 		if (f != null) {
-			f.fill(fo.data, fo.os);
+			f.fill(fo.getData(), fo.getOutputStream());
 		}
 	}
 
@@ -96,10 +93,7 @@ public class TDYellow extends Yellow {
 		try {
 			fis = new FileInputStream(file);
 
-			FileInfo info = new FileInfo();
-			info.file = file;
-
-			yellow(fis, info);
+			yellow(fis, new FileInfo(file));
 		} catch (FileNotFoundException e) {
 			// Throw exception
 			e.printStackTrace();
