@@ -8,6 +8,10 @@ import cn.heroes.yellow.entity.Info;
  * The <code>Interceptor</code> interface should be implemented by all
  * Interceptors. Handle the data parsed by <code>Parser</code>.
  * <p>
+ * The <code>T</code> is the type of data which is return by <code>over</code>
+ * method and used by <code>Filler</code>。
+ * <p/>
+ * <p>
  * 拦截器, 上接<code>Parser</code>, 下接<code>Filler</code>, 只关注标准格式下的内容数据处理,
  * 具体的处理规则一般由框架使用者的业务逻辑来确定实现.
  * </p>

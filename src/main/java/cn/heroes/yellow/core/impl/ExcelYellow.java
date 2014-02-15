@@ -2,6 +2,7 @@ package cn.heroes.yellow.core.impl;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Iterator;
 
 import cn.heroes.yellow.core.Yellow;
 import cn.heroes.yellow.entity.Info;
@@ -9,6 +10,7 @@ import cn.heroes.yellow.entity.TDRow;
 import cn.heroes.yellow.entity.impl.FileInfo;
 import cn.heroes.yellow.filler.Filler;
 import cn.heroes.yellow.intercepter.TDIntercepter;
+import cn.heroes.yellow.parser.TDParser;
 import cn.heroes.yellow.parser.impl.ExcelParserImpl;
 
 public class ExcelYellow extends Yellow {
@@ -20,7 +22,8 @@ public class ExcelYellow extends Yellow {
 	/** 填充器对象 */
 	private Filler f;
 
-	public ExcelYellow(ExcelParserImpl parser, TDIntercepter intercepter, Filler filler) {
+	public ExcelYellow(ExcelParserImpl parser, TDIntercepter intercepter,
+			Filler filler) {
 		super(parser, intercepter, filler);
 		this.p = parser;
 		this.i = intercepter;
@@ -30,41 +33,16 @@ public class ExcelYellow extends Yellow {
 	@Override
 	public void yellow(InputStream is, Info info) {
 		// 调用解析器去解析InputStream
-		p.parse(is);
-		
-		// 是否已真正开始的标识
-		boolean isBegin = false;
-		
-		// 迭代row
-		TDRow row = null;
-		
-		/*
-		i.info(info);
-		while ((row = p.next()) != null) {
-
-			// 是否已真正开始
-			if (isBegin) {
-				// 已开始
-				if (i.end(row)) {
-					// 结束
-					break;
-				} else if (i.ignore(row)) {
-					// 该行忽略
-					continue;
-				} else {
-					// Business Code
-					i.row(row);
-				}
-			} else if (i.begin(row)) {
-				// 判断是否真正开始, 真正开始后不再判断
-				isBegin = true;
-			}
-		}*/
+		Iterator<TDParser> tdps = p.parse(is);
+		while(tdps.hasNext()) {
+			TDParser tdp = tdps.next();
+			TDRow next = tdp.next();
+		}
 	}
 
 	@Override
 	public void yellow(File file) {
-		
+
 	}
 
 }

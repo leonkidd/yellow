@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import cn.heroes.jkit.utils.ExcelUtils;
 import cn.heroes.yellow.exception.ParsingException;
 import cn.heroes.yellow.parser.ExcelParser;
+import cn.heroes.yellow.parser.TDParser;
 
 /**
  * 基于Excel的解析器实现.
@@ -42,7 +43,7 @@ public class ExcelParserImpl implements ExcelParser {
 	private Sheet sheet = null;
 
 	@Override
-	public Iterator<Sheet> parse(InputStream is) throws ParsingException {
+	public Iterator<TDParser> parse(InputStream is) throws ParsingException {
 		try {
 			book = ExcelUtils.create(is);
 			int numberOfSheets = book.getNumberOfSheets();
