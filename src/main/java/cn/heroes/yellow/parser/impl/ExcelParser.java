@@ -1,18 +1,19 @@
 package cn.heroes.yellow.parser.impl;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import cn.heroes.jkit.utils.ExcelUtils;
 import cn.heroes.yellow.entity.TDPage;
+import cn.heroes.yellow.entity.TDRow;
+import cn.heroes.yellow.entity.impl.ExcelRow;
 import cn.heroes.yellow.exception.ParsingException;
 import cn.heroes.yellow.parser.NTDParser;
-import cn.heroes.yellow.parser.TDParser;
 
 /**
  * 基于Excel的解析器实现.
@@ -25,34 +26,70 @@ import cn.heroes.yellow.parser.TDParser;
  */
 public class ExcelParser implements NTDParser {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(ExcelParser.class);
+	/** POI Work book */
+	private Workbook book = null;
+
+	/**
+	 * @return The iterable TDPage list, maybe empty but never null.
+	 */
+	@Override
+	public Iterator<TDPage> parse(InputStream is) throws ParsingException {
+		ArrayList<TDPage> list = new ArrayList<TDPage>();
+		try {
+			book = ExcelUtils.create(is);
+			int numberOfSheets = book.getNumberOfSheets();
+			for (int i = 0; i < numberOfSheets; i++) {
+				Sheet sheet = book.getSheetAt(i);
+				ExcelTDPage page = new ExcelTDPage(sheet);
+				list.add(page);
+			}
+		} catch (Exception e) {
+			throw new ParsingException("Error when create POI Workbook", e);
+		}
+		return list.iterator();
+	}
+
+	/**
+	 * TDpage implementation, deal with every sheet.
+	 * 
+	 * @author Leon Kidd
+	 * @version 1.00, 2014-2-16
+	 * @since 1.0
+	 * @see cn.heroes.yellow.parser.impl.SheetNParser
+	 */
+	class ExcelTDPage implements TDPage {
+
+		private Sheet sheet;
+		private Iterator<Row> rows;
+
+		public ExcelTDPage(Sheet sheet) {
+			this.sheet = sheet;
+			rows = sheet.rowIterator();
+		}
+
+		@Override
+		public String getName() {
+			return sheet.getSheetName();
+		}
+
+		@Override
+		public TDRow next() {
+			if (rows.hasNext()) {
+				Row row = rows.next();
+				return new ExcelRow(row, book);
+			} else {
+				return null;
+			}
+		}
+
+	}
 
 	@Override
 	public void init() {
-		logger.info("ExcelParser 初始化成功.");
 	}
 
 	@Override
 	public void destroy() {
-		logger.info("ExcelParser 销毁成功.");
-	}
-
-	/** POI Work book */
-	private Workbook book = null;
-	/** 当前正在迭代的Sheet */
-	private Sheet sheet = null;
-
-	@Override
-	public Iterator<TDPage> parse(InputStream is) throws ParsingException {
-		try {
-			book = ExcelUtils.create(is);
-			int numberOfSheets = book.getNumberOfSheets();
-
-		} catch (Exception e) {
-			throw new ParsingException("Error when create POI Workbook", e);
-		}
-		return null;
 	}
 
 }

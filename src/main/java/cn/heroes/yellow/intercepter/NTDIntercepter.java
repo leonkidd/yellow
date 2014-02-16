@@ -1,5 +1,17 @@
 package cn.heroes.yellow.intercepter;
 
+/**
+ * TODO
+ * <p>
+ * NOTE: This intercepter is singleton, so the attributes will be used in every
+ * sheet.
+ * <p>
+ * 
+ * @author Leon Kidd
+ * @version 1.00, 2014-2-16
+ * @since 1.0
+ */
+
 public abstract class NTDIntercepter<F> implements TDIntercepter<F> {
 
 	/**

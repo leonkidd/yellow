@@ -16,13 +16,6 @@ public class RuleBreakIntercepter extends NTDIntercepter<File> {
 	private static final Logger logger = LoggerFactory
 			.getLogger(RuleBreakIntercepter.class);
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-
-	}
-
 	private boolean begin = false;
 
 	@Override
@@ -39,8 +32,9 @@ public class RuleBreakIntercepter extends NTDIntercepter<File> {
 
 	@Override
 	public boolean end(TDRow row) {
-		String name = row.getString(2);
-		return name == null || "".equals(name);
+		//String name = row.getString(2);
+		//return name == null || "".equals(name);
+		return false;
 	}
 
 	@Override
@@ -55,7 +49,8 @@ public class RuleBreakIntercepter extends NTDIntercepter<File> {
 
 	@Override
 	public void sheet(int index, String name) {
-		logger.info("开始分析第{}个Sheet[{}]", index, name);
+		begin = false;
+		logger.info("开始分析第{}个Sheet [{}]", index, name);
 	}
 
 	@Override
@@ -75,7 +70,8 @@ public class RuleBreakIntercepter extends NTDIntercepter<File> {
 
 	@Override
 	public void info(Info<File> info) {
-		
+		File file = info.body();
+		logger.info("开始分析文件[{}]", file.getAbsolutePath());
 	}
 
 }

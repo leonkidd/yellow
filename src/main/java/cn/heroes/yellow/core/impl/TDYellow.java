@@ -60,8 +60,9 @@ public class TDYellow extends Yellow {
 
 			// 是否已真正开始
 			if (!isBegin) {
+				// 由拦截器来确认是否要真正开始
 				if (i.begin(row)) {
-					// 判断是否真正开始, 真正开始后不再判断
+					// 真正开始后不再判断
 					isBegin = true;
 				} else {
 					continue;
