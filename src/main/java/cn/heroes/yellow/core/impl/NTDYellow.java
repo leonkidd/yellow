@@ -43,6 +43,9 @@ public class NTDYellow extends Yellow {
 			TDPage page = pages.next();
 			
 			i.sheet(index, page.getName());
+			i.info(info);
+			
+			
 
 			// 是否已真正开始的标识
 			boolean isBegin = false;
