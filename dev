@@ -30,6 +30,7 @@
 	
 
 1-based
+NTDIntercepter#sheet方法上要做一些数据归零的操作（因为Intercepter单例）
 
 大文件分段同时读的功能
 读，解，读，三个操作动态均衡

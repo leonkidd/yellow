@@ -16,6 +16,10 @@ public abstract class NTDIntercepter<F> implements TDIntercepter<F> {
 
 	/**
 	 * Current handling sheet, invoke once before starting to parse every sheet.
+	 * <p>
+	 * NOTE: Some local attribute's data should be reset, because intercepter is
+	 * singleton.
+	 * </p>
 	 * 
 	 * @param index
 	 *            1-based
