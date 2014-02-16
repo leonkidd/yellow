@@ -3,6 +3,8 @@ package demo;
 import java.io.File;
 
 import cn.heroes.yellow.core.impl.NTDYellow;
+import cn.heroes.yellow.filler.Filler;
+import cn.heroes.yellow.filler.impl.Sheet0Filler;
 import cn.heroes.yellow.parser.NTDParser;
 import cn.heroes.yellow.parser.impl.ExcelParser;
 
@@ -24,11 +26,13 @@ public class RuleBreak {
 		NTDParser parser = new ExcelParser();
 		// Intercepter
 		RuleBreakIntercepter rbi = new RuleBreakIntercepter();
+		// Filler
+		Sheet0Filler filler = new Sheet0Filler(new File("template.xls"));
 		// Yellow
-		NTDYellow yellow = new NTDYellow(parser, rbi, null);
+		NTDYellow yellow = new NTDYellow(parser, rbi, filler);
 		// do yellow
-		yellow.yellow(new File("test/rb.xls"));
-
+		yellow.yellow(new File("*.xls"));
+		yellow.destroy();
 	}
 
 }

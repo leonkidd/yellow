@@ -9,13 +9,17 @@
 2.对Excel2003, 2007都支持
 
 
-!! Parser: prototype; Interceptor: singleton ?
-!! 批量处理文件，如一整个目录，并提供标识(目录，文件名!，Sheet名!)
-! Info, FileInfo 变成T, 即File和IO流如何与各组件匹配, 应以IO主核心, File为辅
-! TDYellow, NTDYellow问题.
-!!! use CellReference instead Chessboard, and use it rebuild TDCellIntercepter
+!!! use CellReference instead Chessboard, and use it rebuild TDCellIntercepter, 提取NTDYellow与TDYellow中begin,end等相同部份
+!!! 当前yellow的程序接口是只处理单一文件的，如何对批量处理文件，如一整个目录提供辅助
+!!! 用CellReference代替Chessboard,它支持的列数更多, 不造轮子.
+!!! Info, Filler等在Yellow实现（TDYellow和NTDYellow）中问题，(<?>)	// FileInfo 变成T, 即File和IO流如何与各组件匹配, 应以IO主核心, File为辅
 !! 整理注释，整理构架思路
-! 提取NTDYellow与TDYellow中begin,end等相同部份
+
+!!! Filler与Interceper解耦：当前,由TD拦截器的over返回Filler所需要的数据已都被限定为
+	List<Object[]>(即二维表的Filler方式), TD打头的拦截器这个头的意义是对应Parser,而
+	不是Filler，应该解耦、可适配. 所以TDYellow等Yellow的实现应该是2而不是1
+	1.public TDYellow(TDParser parser, TDIntercepter<?> intercepter, TDFiller filler)
+	2.public TDYellow(TDParser parser, TDIntercepter<?> intercepter, Filler filler) {
 
 !!!方案
 	1.使用统一设计标准，TD*（TDParser,TDIntercepter,TDYellow）, Excel*（ExeclParser,ExcelIntercepter,ExcelYellow）等相互独立,而又都实现了Parser, Yellow, Intercepter

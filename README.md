@@ -13,6 +13,7 @@ Yellow
 ----------
 * 开发者可以选取任意不同的Parser和Filler, 与自己实现的Interceptor无缝对接.
 * 数据流程: 输入文件 --> Parser --> Interceptor --> Filler --> 输出文件
+* 三大组件都单例
 
 ### Parser 解析器
 只关注文件格式, 将文件内容统一成标准格式交由Intercepter处理.

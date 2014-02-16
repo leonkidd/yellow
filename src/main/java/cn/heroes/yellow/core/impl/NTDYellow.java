@@ -6,8 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.List;
 
 import cn.heroes.yellow.core.Yellow;
+import cn.heroes.yellow.entity.FillObject;
 import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.entity.TDPage;
 import cn.heroes.yellow.entity.TDRow;
@@ -87,6 +89,11 @@ public class NTDYellow extends Yellow {
 			index++;
 		}
 
+		// 分析结束, 获取需要填充的数据
+		FillObject fo = i.over();
+		if (f != null) {
+			f.fill(fo.getData(), fo.getOutputStream());
+		}
 	}
 
 	@Override
