@@ -8,22 +8,20 @@ import java.util.Map;
 import java.util.Set;
 
 import cn.heroes.yellow.entity.FillObject;
-import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.entity.TDRow;
 import cn.heroes.yellow.util.Chessboard;
 
 /**
- * 二维表单元格(横标尺为ABC..., 纵标尺为123...)取值, 获取指定的单元格的数值.
+ * 二维表单元格(横标尺为ABC..., 纵标尺为123...)取值, 获取指定的单元格的数值. 单元格标识代表单元格位置(e.g. H3).
  * <p>
- * 单元格标识为：<code>CellName</code>, 代表单元格位置(e.g. H3).
+ * The <tt>F</tt> is the type of info about object intercepted.
  * </p>
  * Usage: 实现<code>callback</code>方法, 实例一个实现类对象,并传入要解析的单元格位置名称数组.
  * 
  * @author Leon Kidd
  * @version 1.00, 2014-1-30
  */
-public abstract class TDCellIntercepter<F extends Info<?>> implements
-		TDIntercepter<F> {
+public abstract class TDCellIntercepter<F> implements TDIntercepter<F> {
 
 	/** 存储单元格位置信息的List, e.g. {"H1", "B2"} */
 	protected Set<String> cellPoses;

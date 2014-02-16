@@ -1,15 +1,17 @@
 package demo;
 
+import java.io.File;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.heroes.yellow.entity.FillObject;
+import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.entity.TDRow;
 import cn.heroes.yellow.intercepter.NTDIntercepter;
 
-public class RuleBreakIntercepter extends NTDIntercepter {
+public class RuleBreakIntercepter extends NTDIntercepter<File> {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(RuleBreakIntercepter.class);
@@ -69,6 +71,11 @@ public class RuleBreakIntercepter extends NTDIntercepter {
 	@Override
 	public void destroy() {
 
+	}
+
+	@Override
+	public void info(Info<File> info) {
+		
 	}
 
 }

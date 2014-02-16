@@ -7,10 +7,10 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.heroes.yellow.entity.impl.FileInfo;
+import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.intercepter.TDCellIntercepter;
 
-public class HRTDCellIntercepter extends TDCellIntercepter<FileInfo> {
+public class HRTDCellIntercepter extends TDCellIntercepter<File> {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(HRTDCellIntercepter.class);
@@ -31,7 +31,7 @@ public class HRTDCellIntercepter extends TDCellIntercepter<FileInfo> {
 	}
 
 	@Override
-	public void info(FileInfo info) {
+	public void info(Info<File> info) {
 		File file = info.body();
 		logger.info("The file [{}] is intercepting.", file.getAbsolutePath());
 	}

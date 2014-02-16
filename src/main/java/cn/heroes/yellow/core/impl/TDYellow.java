@@ -28,11 +28,11 @@ public class TDYellow extends Yellow {
 	/** 解析器对象 */
 	private TDParser p;
 	/** 拦截器对象 */
-	private TDIntercepter<Info<?>> i;
+	private TDIntercepter<?> i;
 	/** 填充器对象 */
 	private TDFiller f;
 
-	public TDYellow(TDParser parser, TDIntercepter<Info<?>> intercepter, TDFiller filler) {
+	public TDYellow(TDParser parser, TDIntercepter<?> intercepter, TDFiller filler) {
 		super(parser, intercepter, filler);
 		this.p = parser;
 		this.i = intercepter;
@@ -40,7 +40,7 @@ public class TDYellow extends Yellow {
 	}
 
 	@Override
-	public void yellow(InputStream is, Info<?> info) {
+	public void yellow(InputStream is, Info info) {
 		// 调用解析器去解析InputStream
 		try {
 			p.parse(is);
@@ -54,6 +54,7 @@ public class TDYellow extends Yellow {
 		// 迭代row
 		TDRow row = null;
 
+		// TODO <?>
 		i.info(info);
 		while ((row = p.next()) != null) {
 

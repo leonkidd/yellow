@@ -1,15 +1,5 @@
 package cn.yhhh.test;
 
-import java.io.FileInputStream;
-
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellValue;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-
-import cn.heroes.jkit.utils.ExcelUtils;
 
 public class Main {
 
@@ -21,33 +11,6 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		Workbook wb = null;
-		FormulaEvaluator evaluator = wb.getCreationHelper()
-				.createFormulaEvaluator();
-		CellValue value = evaluator.evaluate(null);
-		
-
-		// FileInputStream fis = new FileInputStream("template.xls");
-		// Workbook book = ExcelUtils.create(fis);
-		// fis.close();
-		//
-		// Sheet sheetAt = book.getSheetAt(0);
-		// Row row = sheetAt.getRow(0);
-		// Cell cell = row.getCell(0);
-		// Object cellValue = ExcelUtils.getCellValue(cell);
-		// System.out.println(cellValue);
-
-		// String encoding = System.getProperty("file.encoding");
-		//
-		// File file = new File("test/cell");
-		// String[] list = file.list();
-		// String s = new String(list[1].getBytes("UTF-8"), "UTF-8");
-		// System.out.println(s);
-		// char c = " ".charAt(0);
-		// System.out.print(c);
-		// for(int i = 65; i < 91; i++) {
-		// System.out.print((char)i);
-		// }
 	}
 
 	public static void way2() {

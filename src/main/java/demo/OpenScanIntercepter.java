@@ -1,5 +1,6 @@
 package demo;
 
+import java.io.File;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.entity.TDRow;
 import cn.heroes.yellow.intercepter.TDIntercepter;
 
-public class OpenScanIntercepter implements TDIntercepter {
+public class OpenScanIntercepter implements TDIntercepter<File> {
 
 	private List<Object[]> data = new ArrayList<Object[]>();
 	private OutputStream os;
@@ -17,11 +18,6 @@ public class OpenScanIntercepter implements TDIntercepter {
 
 	public OpenScanIntercepter(OutputStream os) {
 		this.os = os;
-	}
-
-	@Override
-	public void inputInfo(Info info) {
-		// do nothing..
 	}
 
 	@Override
@@ -86,6 +82,11 @@ public class OpenScanIntercepter implements TDIntercepter {
 	@Override
 	public void destroy() {
 
+	}
+
+	@Override
+	public void info(Info<File> info) {
+		// do nothing
 	}
 
 }

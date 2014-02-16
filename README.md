@@ -24,7 +24,7 @@ Yellow
 只关注将拦截器输出的标准格式内容, 转化成文件.
 
 ### Info
-输入流或输入文件的信息, 与Yellow, Intercepter, Filler相关, 与Parser无关（是否对于Excel实现中会相关，因为有Sheet?） 
+输入流或输入文件的信息, 与Yellow, Intercepter相关, 与Parser, Filler无关
 
 ### Yellow 调节器
 全局调度, 接收文件或输入流信息, 将流将给Parser解析, 再将结果与信息一起交由Intercepter处理,

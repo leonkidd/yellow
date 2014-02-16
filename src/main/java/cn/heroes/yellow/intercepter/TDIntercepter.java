@@ -2,15 +2,16 @@ package cn.heroes.yellow.intercepter;
 
 import java.util.List;
 
-import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.entity.TDRow;
 
 /**
  * Two-Dimensional Table Intercepter interface, iterate every row.
  * <p>
+ * The <tt>F</tt> is the type of info about object intercepted.
+ * </p>
+ * <p>
  * Priority Level between <code>begin</code>, <code>ignore</code> and
  * <code>end</code> is begin > end > ignore, and begin once.
- * </p>
  * 
  * <pre>
  * while (begin) {
@@ -23,11 +24,13 @@ import cn.heroes.yellow.entity.TDRow;
  * }
  * </pre>
  * 
+ * </p>
+ * 
  * @author Leon Kidd
  * @version 1.00, 2014-1-28
  * @since 1.0
  */
-public interface TDIntercepter<F extends Info> extends Intercepter<List<Object[]>, F> {
+public interface TDIntercepter<F> extends Intercepter<List<Object[]>, F> {
 
 	/**
 	 * 

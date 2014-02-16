@@ -52,7 +52,7 @@ public class NTDYellow extends Yellow {
 			// 迭代row
 			TDRow row = null;
 
-			i.inputInfo(info);
+			//i.inputInfo(info);
 			while ((row = page.next()) != null) {
 
 				// 是否已真正开始

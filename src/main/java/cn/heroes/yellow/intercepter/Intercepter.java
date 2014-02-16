@@ -20,7 +20,7 @@ import cn.heroes.yellow.entity.Info;
  * @author Leon Kidd
  * @version 1.00, 2014-1-30
  */
-public interface Intercepter<T, F extends Info> extends NObject {
+public interface Intercepter<T, F> extends NObject {
 
 	/**
 	 * 在Parser要开始化析某个内容时调用, 一般是放入一些Parser正要解析的内容主体相关的信息.
@@ -28,7 +28,7 @@ public interface Intercepter<T, F extends Info> extends NObject {
 	 * @param info
 	 *            信息, 如文件名等
 	 */
-	void info(F info);
+	void info(Info<F> info);
 
 	/**
 	 * Invoke when the parsing is over, and return the data for filling.
