@@ -31,6 +31,23 @@ Yellow
 全局调度, 接收文件或输入流信息, 将流将给Parser解析, 再将结果与信息一起交由Intercepter处理,
 在调用Intercepter的over方法返回FillObject对象后, 用Filler将其中的data填入info指定的介质中.
 
+扩展性
+----------
+框架的各组件都支持被扩展,并且扩展后的组件可以供新老应用使用.
+### Parser
+DelParser, ExcelParser, SheetNParser, TextParser 分别对CSV、Excel、指定Sheet的Excel、文
+件文件提供的解析支持. 开发者可以根据解析的文件不同, 开发更多Parser.
+### Intercepter
+TDIntercepter, NTDIntercepter, TDCellIntercepter, CopyIntercepter 分别对二维表、n张二维
+表、指定单元格取数、复制的拦载器做了定义, 并提供了一些较为简便的API. 开发者可以根据处理需求
+的不同, 定义更多Intercepter.
+### Filler
+DelFiller, Sheet0Filler 分别对CSV文件、首个Sheet的Excel实现了填充器. 开发者可以根据输出结
+果的要求不同, 开发更多Filler.
+
+注意
+----------
+使用时Parser, Intercepter, Yellow在类型上要一致, 如TD*、NTD*. Filler任意
 
 自带实现
 ----------
