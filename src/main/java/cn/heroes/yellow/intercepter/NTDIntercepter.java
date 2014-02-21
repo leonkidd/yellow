@@ -22,9 +22,11 @@ public abstract class NTDIntercepter<F> implements TDIntercepter<F> {
 	 * </p>
 	 * 
 	 * @param index
-	 *            1-based
+	 *            current sheet index, 1-based.
 	 * @param name
+	 *            current sheet name
+	 * @return true if this sheet should to handle, false if this sheet should
+	 *         be ignore.
 	 */
-	public abstract void sheet(int index, String name);
-
+	public abstract boolean sheet(int index, String name);
 }

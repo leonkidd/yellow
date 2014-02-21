@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
-import java.util.List;
 
 import cn.heroes.yellow.core.Yellow;
 import cn.heroes.yellow.entity.FillObject;
@@ -51,7 +50,10 @@ public class NTDYellow extends Yellow {
 		while (pages.hasNext()) {
 			TDPage page = pages.next();
 			
-			i.sheet(index, page.getName());
+			boolean need = i.sheet(index++, page.getName());
+			if(!need) {
+				continue;
+			}
 
 			// 是否已真正开始的标识
 			boolean isBegin = false;
@@ -85,8 +87,6 @@ public class NTDYellow extends Yellow {
 					i.row(row);
 				}
 			}
-			
-			index++;
 		}
 
 		// 分析结束, 获取需要填充的数据

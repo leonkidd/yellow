@@ -31,9 +31,16 @@ public abstract class CopyIntercepter<F> extends NTDIntercepter<F> {
 	@Override
 	public abstract boolean end(TDRow row);
 
+	/**
+	 * 
+	 * Does this sheet have something to copy ?
+	 */
+	@Override
+	public abstract boolean sheet(int index, String name);
+
 	@Override
 	public void row(TDRow row) {
-
+		// TODO copy
 	}
 
 	@Override
@@ -43,22 +50,7 @@ public abstract class CopyIntercepter<F> extends NTDIntercepter<F> {
 
 	@Override
 	public FillObject<List<Object[]>> over() {
+		// TODO fill
 		return null;
 	}
-
-	@Override
-	public void sheet(int index, String name) {
-
-	}
-
-	/**
-	 * Does this sheet have something to copy ?
-	 * 
-	 * @param index
-	 *            current sheet index, 1-based.
-	 * @param name
-	 *            current sheet name
-	 * @return return true if this sheet have something to copy.
-	 */
-	public abstract boolean isSheetCopy(int index, String name);
 }

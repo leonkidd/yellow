@@ -33,7 +33,7 @@ public class DDLBuilderIntercepter extends CopyIntercepter<File> {
 	}
 
 	@Override
-	public boolean isSheetCopy(int index, String name) {
+	public boolean sheet(int index, String name) {
 		return name.equals("标准化字段");
 	}
 
