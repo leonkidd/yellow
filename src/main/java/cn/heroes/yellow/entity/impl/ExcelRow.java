@@ -112,7 +112,7 @@ public class ExcelRow implements TDRow {
 
 	@Override
 	public Object[] getValues() {
-		Object[] values = new Object[(int) getRowNum()];
+		Object[] values = new Object[(int) row.getLastCellNum()];
 		Iterator<Cell> cells = row.cellIterator();
 		int i = 0;
 		while (cells.hasNext()) {
