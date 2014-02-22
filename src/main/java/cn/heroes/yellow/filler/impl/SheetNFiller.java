@@ -169,14 +169,14 @@ public class SheetNFiller implements TDFiller {
 		}
 
 		// core code
-		// TODO 文件尾部 | 65535行满
+		// TODO 文件尾部 | 有些文件本身就占了65535行空行满
 		for (int i = 0; i < data.size(); i++) {
 			Object[] os = data.get(i);
 			Row row = sheet.createRow(beginRowNum + i);
 
 			for (int j = 0; j < os.length; j++) {
 				Cell cell = row.createCell(j);
-				cell.setCellValue(os[j] == null ? "" : os[j].toString());
+				ExcelUtils.setCellValue(cell, os[j]);
 			}
 		}
 

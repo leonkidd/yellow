@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>cn.heroes</groupId>
 			<artifactId>jkit</artifactId>
-			<version>0.3.0</version>
+			<version>0.3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

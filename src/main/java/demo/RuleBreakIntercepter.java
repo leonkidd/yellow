@@ -108,10 +108,11 @@ public class RuleBreakIntercepter extends NTDIntercepter<File> {
 	//private String sheetName;
 
 	@Override
-	public void sheet(int index, String name) {
+	public boolean sheet(int index, String name) {
 		begin = false;
 		//sheetName = name;
 		logger.info("开始分析第{}个Sheet [{}]", index, name);
+		return true;
 	}
 
 	@Override

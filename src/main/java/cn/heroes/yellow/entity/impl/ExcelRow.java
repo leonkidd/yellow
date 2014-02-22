@@ -2,6 +2,7 @@ package cn.heroes.yellow.entity.impl;
 
 import java.util.Iterator;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
@@ -33,7 +34,8 @@ public class ExcelRow implements TDRow {
 	 *            <code>org.apache.poi.ss.usermodel.Row</code>
 	 * @param book
 	 *            if book is null, then the FORMULA cell will return FORMULA
-	 *            String, else the FORMULA cell will return the value evaluated.
+	 *            String with head "=", else the FORMULA cell will return the
+	 *            value evaluated.
 	 *            <code>org.apache.poi.ss.usermodel.Workbook</code>
 	 * @see org.apache.poi.ss.usermodel.Row
 	 */
@@ -60,19 +62,34 @@ public class ExcelRow implements TDRow {
 	}
 
 	/**
+	 * NOTE: if this is a FORMULA cell and the <tt>book</tt> in constructor is
+	 * not null, the formula will be evaluated and returned, otherwise return
+	 * FORMULA String with "=" head.
+	 * 
 	 * @throws EvaluateFormulaException
 	 *             When the formula is evaluated error.
 	 */
 	@Override
 	public Object getObject(int i) {
 		Cell cell = cell(i);
-		return cell == null ? null : ExcelUtils.getCellValue(cell, book);
+		return cell == null ? null : (book == null ? ExcelUtils
+				.getCellValue(cell) : ExcelUtils.getCellValue(cell, book));
 	}
 
+	/**
+	 * NOTE: if this is a FORMULA cell, the FORMULA String with "=" head will be
+	 * returned.
+	 */
 	@Override
 	public String getString(int i) {
 		Cell cell = cell(i);
-		return cell == null ? "" : cell.getStringCellValue();
+		if (cell == null) {
+			return "";
+		} else if (cell.getCellType() == HSSFCell.CELL_TYPE_FORMULA) {
+			return "=" + cell.getCellFormula();
+		} else {
+			return cell.getStringCellValue();
+		}
 	}
 
 	@Override

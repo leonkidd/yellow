@@ -15,6 +15,9 @@
 !!! Info, Filler等在Yellow实现（TDYellow和NTDYellow）中问题，(<?>)	// FileInfo 变成T, 即File和IO流如何与各组件匹配, 应以IO主核心, File为辅
 !! 整理注释，整理构架思路
 !!!! 如何处理单例情况下Filler中数据积累问题（如RuleBreak的多个文件用同一个Intercepter处理）
+!!!! 注意Filler的单例特性, 每次yellow()调用时完成取数、处理、填充等一系列动作, 如果循环对多个输入源调用yellow, 那么Intercepter
+的over方法所返回的数据会!每次!都会被Fill到目标对象中, 所以当输出源单个且输入源多个时，注意在Intercepter#info中清理存储变量，保持每次over
+只返回当前输入源的数据。
 
 !!! Filler与Interceper解耦：当前,由TD拦截器的over返回Filler所需要的数据已都被限定为
 	List<Object[]>(即二维表的Filler方式), TD打头的拦截器这个头的意义是对应Parser,而

@@ -34,8 +34,8 @@ public interface Intercepter<T, F> extends NObject {
 	 * Invoke when the parsing is over, and return the data for filling.
 	 * 
 	 * @return the <code>FillObject</code> object. It contain the data to fill
-	 *         and the information about saving media. Can also return null when
-	 *         there is no filler object in yellow.
+	 *         and the information about saving media. Can also return null if
+	 *         you don't want to fill.
 	 * @see cn.heroes.yellow.filler.Filler
 	 */
 	FillObject<T> over();
