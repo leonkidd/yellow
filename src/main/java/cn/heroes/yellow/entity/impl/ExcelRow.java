@@ -62,22 +62,29 @@ public class ExcelRow implements TDRow {
 	}
 
 	/**
-	 * NOTE: if this is a FORMULA cell and the <tt>book</tt> in constructor is
-	 * not null, the formula will be evaluated and returned, otherwise return
-	 * FORMULA String with "=" head.
-	 * 
-	 * @throws EvaluateFormulaException
-	 *             When the formula is evaluated error.
+	 * If this is a FORMULA cell and the <tt>book</tt> in constructor is not
+	 * null, the formula will be evaluated and returned, otherwise return
+	 * FORMULA String with "=" head. When the formula is evaluated error, the
+	 * formula string with head "=" will be returned.
 	 */
 	@Override
 	public Object getObject(int i) {
 		Cell cell = cell(i);
-		return cell == null ? null : (book == null ? ExcelUtils
-				.getCellValue(cell) : ExcelUtils.getCellValue(cell, book));
+		try {
+			if (cell == null) {
+				return null;
+			} else if (book == null) {
+				return ExcelUtils.getCellValue(cell);
+			} else {
+				return ExcelUtils.getCellValue(cell, book);
+			}
+		} catch (EvaluateFormulaException e) {
+			return "=" + cell.getCellFormula();
+		}
 	}
 
 	/**
-	 * NOTE: if this is a FORMULA cell, the FORMULA String with "=" head will be
+	 * If this is a FORMULA cell, the FORMULA String with "=" head will be
 	 * returned.
 	 */
 	@Override
@@ -119,7 +126,7 @@ public class ExcelRow implements TDRow {
 
 	@Override
 	public int length() {
-		return row.getLastCellNum() + 1;
+		return row.getLastCellNum();
 	}
 
 	@Override
@@ -127,6 +134,10 @@ public class ExcelRow implements TDRow {
 		return row.getRowNum() + 1;
 	}
 
+	/**
+	 * @throws EvaluateFormulaException
+	 *             When the formula is evaluated error.
+	 */
 	@Override
 	public Object[] getValues() {
 		Object[] values = new Object[(int) row.getLastCellNum()];
@@ -134,11 +145,17 @@ public class ExcelRow implements TDRow {
 		int i = 0;
 		while (cells.hasNext()) {
 			Cell cell = cells.next();
-			if (book != null) {
-				values[i++] = ExcelUtils.getCellValue(cell, book);
-			} else {
-				values[i++] = ExcelUtils.getCellValue(cell);
+			Object value = null;
+			try {
+				if (book != null) {
+					value = ExcelUtils.getCellValue(cell, book);
+				} else {
+					value = ExcelUtils.getCellValue(cell);
+				}
+			} catch (EvaluateFormulaException e) {
+				value = "=" + cell.getCellFormula();
 			}
+			values[i++] = value;
 		}
 		return values;
 	}

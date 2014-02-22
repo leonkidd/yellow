@@ -87,7 +87,7 @@ public interface TDRow {
 	 * 
 	 * Retrieves all column's value array of the current row.
 	 * 
-	 * @return
+	 * @return return an empty Object array when these is not any value.
 	 */
 	Object[] getValues();
 }

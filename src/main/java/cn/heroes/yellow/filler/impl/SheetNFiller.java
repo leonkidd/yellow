@@ -9,10 +9,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cn.heroes.jkit.utils.ExcelUtils;
 import cn.heroes.yellow.filler.TDFiller;
@@ -27,6 +30,9 @@ import cn.heroes.yellow.filler.TDFiller;
  * @version 1.00, 2014-2-22
  */
 public class SheetNFiller implements TDFiller {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger(SheetNFiller.class);
 
 	private static final String CODE_PREFIX = "$";
 
@@ -176,7 +182,15 @@ public class SheetNFiller implements TDFiller {
 
 			for (int j = 0; j < os.length; j++) {
 				Cell cell = row.createCell(j);
-				ExcelUtils.setCellValue(cell, os[j]);
+				try {
+					ExcelUtils.setCellValue(cell, os[j]);
+				} catch (FormulaParseException e) {
+					// set as string
+					logger.warn(
+							"Formula [{}] in cell [row: {}, col: {}] (1-based) is error, set as string already.",
+							os[j], i + 1, j + 1);
+					cell.setCellValue(os[j].toString());
+				}
 			}
 		}
 
