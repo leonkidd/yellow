@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellReference;
 
 import cn.heroes.jkit.utils.ExcelUtils;
 import cn.heroes.jkit.utils.exception.EvaluateFormulaException;
@@ -84,6 +85,17 @@ public class ExcelRow implements TDRow {
 	}
 
 	/**
+	 * @param i
+	 *            A ALPHA-26 String of column reference, 1-based. 'A' -> 1 'Z'
+	 *            -> 26 'AA' -> 27 'IV' -> 256
+	 * 
+	 * @see #getObject(int)
+	 */
+	public Object getObject(String i) {
+		return getObject(CellReference.convertColStringToIndex(i) + 1);
+	}
+
+	/**
 	 * If this is a FORMULA cell, the FORMULA String with "=" head will be
 	 * returned.
 	 */
@@ -99,10 +111,32 @@ public class ExcelRow implements TDRow {
 		}
 	}
 
+	/**
+	 * @param i
+	 *            A ALPHA-26 String of column reference, 1-based. 'A' -> 1 'Z'
+	 *            -> 26 'AA' -> 27 'IV' -> 256
+	 * 
+	 * @see #getString(int)
+	 */
+	public Object getString(String i) {
+		return getString(CellReference.convertColStringToIndex(i) + 1);
+	}
+
 	@Override
 	public double getDouble(int i) {
 		Cell cell = cell(i);
 		return cell == null ? 0 : cell.getNumericCellValue();
+	}
+
+	/**
+	 * @param i
+	 *            A ALPHA-26 String of column reference, 1-based. 'A' -> 1 'Z'
+	 *            -> 26 'AA' -> 27 'IV' -> 256
+	 * 
+	 * @see #getDouble(int)
+	 */
+	public Object getDouble(String i) {
+		return getDouble(CellReference.convertColStringToIndex(i) + 1);
 	}
 
 	@Override
@@ -112,16 +146,49 @@ public class ExcelRow implements TDRow {
 		return cell == null ? 0 : (float) cell.getNumericCellValue();
 	}
 
+	/**
+	 * @param i
+	 *            A ALPHA-26 String of column reference, 1-based. 'A' -> 1 'Z'
+	 *            -> 26 'AA' -> 27 'IV' -> 256
+	 * 
+	 * @see #getFloat(int)
+	 */
+	public Object getFloat(String i) {
+		return getFloat(CellReference.convertColStringToIndex(i) + 1);
+	}
+
 	@Override
 	public long getLong(int i) {
 		Cell cell = cell(i);
 		return cell == null ? 0 : (long) cell.getNumericCellValue();
 	}
 
+	/**
+	 * @param i
+	 *            A ALPHA-26 String of column reference, 1-based. 'A' -> 1 'Z'
+	 *            -> 26 'AA' -> 27 'IV' -> 256
+	 * 
+	 * @see #getLong(int)
+	 */
+	public Object getLong(String i) {
+		return getLong(CellReference.convertColStringToIndex(i) + 1);
+	}
+
 	@Override
 	public int getInt(int i) {
 		Cell cell = cell(i);
 		return cell == null ? 0 : (int) cell.getNumericCellValue();
+	}
+
+	/**
+	 * @param i
+	 *            A ALPHA-26 String of column reference, 1-based. 'A' -> 1 'Z'
+	 *            -> 26 'AA' -> 27 'IV' -> 256
+	 * 
+	 * @see #getInt(int)
+	 */
+	public Object getInt(String i) {
+		return getInt(CellReference.convertColStringToIndex(i) + 1);
 	}
 
 	@Override
