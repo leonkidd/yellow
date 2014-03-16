@@ -6,7 +6,8 @@ import cn.heroes.yellow.exception.CellNameWrongException;
  * 棋盘工具类, 用于处理Excel的单元格位置.
  * 
  * @author cq
- * 
+ * @deprecated use {@link CellUtils} instead, because of this not support that
+ *             more than two letters.
  */
 public class Chessboard {
 
@@ -39,7 +40,7 @@ public class Chessboard {
 			throw new CellNameWrongException("The letter [" + c
 					+ "] in Cellname is not between A to Z.");
 		}
-		
+
 		// 获取第一位数字(即行号)
 		String number = cellName.substring(1);
 		try {
