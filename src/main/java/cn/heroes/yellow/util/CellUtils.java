@@ -1,5 +1,8 @@
 package cn.heroes.yellow.util;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.poi.ss.util.CellReference;
 
 import cn.heroes.yellow.exception.CellNameWrongException;
@@ -25,48 +28,41 @@ public class CellUtils {
 		return CellReference.convertColStringToIndex(ref) + 1;
 	}
 
-	// ----- TODO
+	// 单元格位置名匹配的正则表达式, e.g. A2
+	private static final Pattern pCellName = Pattern
+			.compile("([a-zA-Z]+)(\\d+)");
 
 	/**
-	 * 根据单元格位置名得出二维表格位置(支持大、小写). 如：A2 --> 2, 1
-	 * <p>
-	 * NOTE: 默认字母不会超过一位.
-	 * </p>
+	 * 根据单元格位置名得出二维表格位置(1-based), 列名字母支持大、小写. 如：A2 --> 2, 1
 	 * 
 	 * @param cellName
 	 *            单元格位置名, e.g. A2, A代表列数,2代表行数
 	 * @return 该单元格的二维表位置, 1-based, e.g. [2, 1] 第一位为行号， 第二位为列号.
 	 */
 	public static int[] name2pos(String cellName) {
-		// 转为大写
-		cellName = cellName.toUpperCase();
+		// 匹配表达式
+		Matcher m = pCellName.matcher(cellName);
+		// 是否整名匹配
+		if (m.matches()) {
+			// 列字母.
+			String colLetter = m.group(1);
+			// 行号, 1-based.
+			String rowStr = m.group(2);
 
-		// 名字长度
-		int length = cellName.length();
-		// 不足两位则报错
-		if (length < 2) {
+			try {
+				// 列号, 1-based.
+				int col = CellReference.convertColStringToIndex(colLetter) + 1;
+				// 行号, 1-based.
+				int row = Integer.parseInt(rowStr);
+				return new int[] { row, col };
+			} catch (NumberFormatException e) {
+				throw new CellNameWrongException("The number [" + rowStr
+						+ "] in Cellname is a wrong number.", e);
+			}
+		} else {
 			throw new CellNameWrongException("The Cellname [" + cellName
-					+ "] length cannot less than 2.");
+					+ "] is ilegal, the legal cell name looks like 'A2'.");
 		}
-
-		// 获取第一位字母(即列号)
-		char c = cellName.charAt(0);
-		int col = c - 64;
-		if (col > 26 || col < 1) {
-			throw new CellNameWrongException("The letter [" + c
-					+ "] in Cellname is not between A to Z.");
-		}
-
-		// 获取第一位数字(即行号)
-		String number = cellName.substring(1);
-		try {
-			int row = Integer.parseInt(number);
-			return new int[] { row, col };
-		} catch (NumberFormatException e) {
-			throw new CellNameWrongException("The number [" + number
-					+ "] in Cellname is a wrong number.", e);
-		}
-
 	}
 
 	/**
@@ -79,12 +75,6 @@ public class CellUtils {
 	 * @return
 	 */
 	public static String pos2name(int row, int col) {
-		if (col > 26 || col < 1 || row < 1) {
-			throw new RuntimeException("Row number cannot large than 26, row ["
-					+ row + "] and col [" + row + "] cannot less than 1.");
-		}
-
-		char letter = (char) (col + 64);
-		return letter + String.valueOf(row);
+		return CellReference.convertNumToColString(col - 1) + row;
 	}
 }
