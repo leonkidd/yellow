@@ -3,6 +3,7 @@
 1.1.0	Added: ExcelRow通过列名(字母)获取单元格内容
 		Added: CellUtils工具类用于单元格处理，代替Chessboard.
 
+1.2.0	TODO: 在读取的当前文档中直接修改，即在row方法下对row对象直接set值，最后保存。
 
 格式
 *.*.*	·Fixed: ....
