@@ -2,6 +2,9 @@
 
 1.1.0	Added: ExcelRow通过列名(字母)获取单元格内容
 		Added: CellUtils工具类用于单元格处理，代替Chessboard.
+		
+1.2.0	Added: Del、CSV解析支持
+
 
 格式
 *.*.*	·Fixed: ....

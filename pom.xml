@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cn.heroes</groupId>
 	<artifactId>yellow</artifactId>
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 	<name>yellow</name>
 	<description>Excel Data Framework</description>
 	<build>
@@ -23,11 +23,6 @@
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>3.9</version>
-		</dependency>
-		<dependency>
-			<groupId>org.skife</groupId>
-			<artifactId>csv</artifactId>
-			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -60,6 +55,11 @@
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>2.3</version>
 		</dependency>
 	</dependencies>
 	<properties>

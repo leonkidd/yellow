@@ -10,7 +10,7 @@ import cn.heroes.yellow.parser.impl.DelParser;
 public class InnerDetail {
 	public static void main(String[] args) {
 		// Parser
-		TDParser parser = new DelParser(false);
+		TDParser parser = new DelParser();
 		// Intercepter
 		InnerDetailIntercepter intercepter = new InnerDetailIntercepter();
 		// Filler

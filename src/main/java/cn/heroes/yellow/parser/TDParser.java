@@ -17,7 +17,7 @@ public interface TDParser extends Parser<Void> {
 	 * Move pointer to the next row, and get that Two-Dimensional Table Row.
 	 * Didn't hold any row at the beginning.
 	 * 
-	 * @return TDRow object, return <code>null</code> if row is not exist.
+	 * @return TDRow object, return <code>null</code> until the end.
 	 * @throws UnParsedException
 	 *             if <code>parse</code> method didn't invoked before.
 	 */
