@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -36,7 +37,7 @@ public class SheetNFiller implements TDFiller {
 
 	private static final String CODE_PREFIX = "$";
 
-	private Workbook book;
+	private Workbook basebook;
 	private String sheetName;
 	private int sheetIndex = 0;
 
@@ -44,7 +45,7 @@ public class SheetNFiller implements TDFiller {
 	 * Create a blank Excel file with default sheet name.
 	 */
 	public SheetNFiller() {
-		book = new HSSFWorkbook();
+		basebook = new HSSFWorkbook();
 	}
 
 	/**
@@ -91,12 +92,12 @@ public class SheetNFiller implements TDFiller {
 	private void createWorkbook(File template) {
 		// create book if there is no template.
 		if (template == null) {
-			book = new HSSFWorkbook();
+			basebook = new HSSFWorkbook();
 		} else {
 			FileInputStream fis = null;
 			try {
 				fis = new FileInputStream(template);
-				book = ExcelUtils.create(fis);
+				basebook = ExcelUtils.create(fis);
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
@@ -141,10 +142,10 @@ public class SheetNFiller implements TDFiller {
 
 	private void createWorkbook(InputStream template) {
 		if (template == null) {
-			book = new HSSFWorkbook();
+			basebook = new HSSFWorkbook();
 		} else {
 			try {
-				book = ExcelUtils.create(template);
+				basebook = ExcelUtils.create(template);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -153,6 +154,7 @@ public class SheetNFiller implements TDFiller {
 
 	@Override
 	public void fill(List<Object[]> data, OutputStream output) {
+		Workbook book = (Workbook)ObjectUtils.clone(basebook);
 		// get Sheet with the specified name or index.
 		Sheet sheet = null;
 		try {
