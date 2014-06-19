@@ -41,18 +41,36 @@ public class SheetNFiller implements TDFiller {
 	private int sheetIndex = 0;
 
 	/**
+	 * Create a blank Excel file with default sheet name.
+	 */
+	public SheetNFiller() {
+		book = new HSSFWorkbook();
+	}
+
+	/**
+	 * Create a blank Excel file with the specified sheet name.
+	 * 
+	 * @param sheetName
+	 */
+	public SheetNFiller(String sheetName) {
+		this.sheetName = sheetName;
+	}
+
+	/**
 	 * 
 	 * Choose a template to fill data.
 	 * 
 	 * @param template
-	 *            the Excel template file. <code>NULL</code> if want a blank
-	 *            Excel file.
-	 * @param index
-	 *            the specified sheet's index, 1-based.
+	 *            the Excel template file.
+	 * @param sheetIndex
+	 *            the specified sheet's index, 0-based.
 	 */
-	public SheetNFiller(File template, int index) {
+	public SheetNFiller(File template, int sheetIndex) {
+		if (template == null) {
+			throw new RuntimeException("Template file cannot be NULL.");
+		}
 		createWorkbook(template);
-		sheetIndex = index;
+		this.sheetIndex = sheetIndex;
 	}
 
 	/**
@@ -62,12 +80,12 @@ public class SheetNFiller implements TDFiller {
 	 * @param template
 	 *            the Excel template file. <code>NULL</code> if want a blank
 	 *            Excel file.
-	 * @param name
+	 * @param sheetName
 	 *            the specified sheet's name.
 	 */
-	public SheetNFiller(File template, String name) {
+	public SheetNFiller(File template, String sheetName) {
 		createWorkbook(template);
-		sheetName = name;
+		this.sheetName = sheetName;
 	}
 
 	private void createWorkbook(File template) {
@@ -95,14 +113,16 @@ public class SheetNFiller implements TDFiller {
 	 * Choose a template to fill data.
 	 * 
 	 * @param template
-	 *            the Excel template file. <code>NULL</code> if want a blank
-	 *            Excel file.
-	 * @param index
-	 *            the specified sheet's index, 1-based.
+	 *            the Excel template file.
+	 * @param sheetIndex
+	 *            the specified sheet's index, 0-based.
 	 */
-	public SheetNFiller(InputStream template, int index) {
+	public SheetNFiller(InputStream template, int sheetIndex) {
+		if (template == null) {
+			throw new RuntimeException("Template file cannot be NULL.");
+		}
 		createWorkbook(template);
-		sheetIndex = index;
+		this.sheetIndex = sheetIndex;
 	}
 
 	/**
@@ -111,12 +131,12 @@ public class SheetNFiller implements TDFiller {
 	 * @param template
 	 *            the Excel template file. <code>NULL</code> if want a blank
 	 *            Excel file.
-	 * @param name
+	 * @param sheetName
 	 *            the specified sheet's name.
 	 */
-	public SheetNFiller(InputStream template, String name) {
+	public SheetNFiller(InputStream template, String sheetName) {
 		createWorkbook(template);
-		sheetName = name;
+		this.sheetName = sheetName;
 	}
 
 	private void createWorkbook(InputStream template) {
@@ -135,12 +155,15 @@ public class SheetNFiller implements TDFiller {
 	public void fill(List<Object[]> data, OutputStream output) {
 		// get Sheet with the specified name or index.
 		Sheet sheet = null;
-		if (sheetName != null) {
-			sheet = book.getSheet(sheetName);
-		} else {
-			sheet = book.getSheetAt(sheetIndex);
+		try {
+			if (sheetName != null) {
+				sheet = book.getSheet(sheetName);
+			} else {
+				sheet = book.getSheetAt(sheetIndex);
+			}
+		} catch(Exception e) {
+			// do nothing
 		}
-
 		// create Sheet1 when there is no Sheet
 		if (sheet == null) {
 			sheet = book.createSheet("Sheet1");

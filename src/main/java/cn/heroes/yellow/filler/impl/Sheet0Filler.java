@@ -14,6 +14,22 @@ import java.io.InputStream;
 public class Sheet0Filler extends SheetNFiller {
 
 	/**
+	 * Create a blank Excel file with default sheet name.
+	 */
+	public Sheet0Filler() {
+		super();
+	}
+
+	/**
+	 * Create a blank Excel file with the specified sheet name.
+	 * 
+	 * @param sheetName
+	 */
+	public Sheet0Filler(String sheetName) {
+		super(sheetName);
+	}
+
+	/**
 	 * Choose a template to fill data.
 	 * 
 	 * @param template

@@ -14,7 +14,8 @@ import cn.heroes.yellow.NObject;
 public interface Filler<T> extends NObject {
 
 	/**
-	 * Fill data into a file or something else.
+	 * Fill data into a file or something else. Filler won't care about the I/O
+	 * close.
 	 * 
 	 * @param t
 	 *            Data content

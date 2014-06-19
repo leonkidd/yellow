@@ -4,6 +4,8 @@
 		Added: CellUtils工具类用于单元格处理，代替Chessboard.
 		
 1.2.0	Added: Del、CSV解析支持
+		Added: Del、CSV填充支持
+		Fixed: SheetNFiller的BUG
 
 
 格式
