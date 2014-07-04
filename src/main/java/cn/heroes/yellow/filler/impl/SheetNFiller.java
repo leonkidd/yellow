@@ -1,20 +1,21 @@
 package cn.heroes.yellow.filler.impl;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +28,10 @@ import cn.heroes.yellow.filler.TDFiller;
  * mark in the first cell(cell no. is 1). If there is no <code>$</code> mark,
  * the data will be filled after the end of sheet.
  * 
+ * <p>
+ * export Excel 2007
+ * </p>
+ * 
  * @author Leon Kidd
  * @version 1.00, 2014-2-22
  */
@@ -37,7 +42,8 @@ public class SheetNFiller implements TDFiller {
 
 	private static final String CODE_PREFIX = "$";
 
-	private Workbook basebook;
+	/** template byte array */
+	private byte[] bs = null;
 	private String sheetName;
 	private int sheetIndex = 0;
 
@@ -45,7 +51,6 @@ public class SheetNFiller implements TDFiller {
 	 * Create a blank Excel file with default sheet name.
 	 */
 	public SheetNFiller() {
-		basebook = new HSSFWorkbook();
 	}
 
 	/**
@@ -67,11 +72,7 @@ public class SheetNFiller implements TDFiller {
 	 *            the specified sheet's index, 0-based.
 	 */
 	public SheetNFiller(File template, int sheetIndex) {
-		if (template == null) {
-			throw new RuntimeException("Template file cannot be NULL.");
-		}
-		createWorkbook(template);
-		this.sheetIndex = sheetIndex;
+		createWorkbook(null, template, sheetIndex, null);
 	}
 
 	/**
@@ -85,29 +86,7 @@ public class SheetNFiller implements TDFiller {
 	 *            the specified sheet's name.
 	 */
 	public SheetNFiller(File template, String sheetName) {
-		createWorkbook(template);
-		this.sheetName = sheetName;
-	}
-
-	private void createWorkbook(File template) {
-		// create book if there is no template.
-		if (template == null) {
-			basebook = new HSSFWorkbook();
-		} else {
-			FileInputStream fis = null;
-			try {
-				fis = new FileInputStream(template);
-				basebook = ExcelUtils.create(fis);
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					fis.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+		createWorkbook(null, template, 0, sheetName);
 	}
 
 	/**
@@ -119,11 +98,7 @@ public class SheetNFiller implements TDFiller {
 	 *            the specified sheet's index, 0-based.
 	 */
 	public SheetNFiller(InputStream template, int sheetIndex) {
-		if (template == null) {
-			throw new RuntimeException("Template file cannot be NULL.");
-		}
-		createWorkbook(template);
-		this.sheetIndex = sheetIndex;
+		createWorkbook(template, null, sheetIndex, null);
 	}
 
 	/**
@@ -136,34 +111,52 @@ public class SheetNFiller implements TDFiller {
 	 *            the specified sheet's name.
 	 */
 	public SheetNFiller(InputStream template, String sheetName) {
-		createWorkbook(template);
-		this.sheetName = sheetName;
+		createWorkbook(template, null, 0, sheetName);
 	}
 
-	private void createWorkbook(InputStream template) {
-		if (template == null) {
-			basebook = new HSSFWorkbook();
-		} else {
-			try {
-				basebook = ExcelUtils.create(template);
-			} catch (Exception e) {
-				e.printStackTrace();
+	private void createWorkbook(InputStream is, File file, int sheetIndex,
+			String sheetName) {
+		try {
+			// Keep the template byte array in memory
+			if (is != null) {
+				bs = IOUtils.toByteArray(is);
+			} else if (file != null) {
+				bs = FileUtils.readFileToByteArray(file);
+			} else {
+				bs = null;
 			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
+
+		this.sheetIndex = sheetIndex;
+		this.sheetName = sheetName;
 	}
 
 	@Override
 	public void fill(List<Object[]> data, OutputStream output) {
-		Workbook book = (Workbook)ObjectUtils.clone(basebook);
-		// get Sheet with the specified name or index.
+		Workbook book = null;
 		Sheet sheet = null;
+
+		// create workbook before every fill.
+		if (bs != null) {
+			try {
+				book = new XSSFWorkbook(new ByteArrayInputStream(bs));
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		} else {
+			book = new XSSFWorkbook();
+		}
+
+		// Get Sheet with the specified name or index.
 		try {
 			if (sheetName != null) {
 				sheet = book.getSheet(sheetName);
 			} else {
 				sheet = book.getSheetAt(sheetIndex);
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			// do nothing
 		}
 		// create Sheet1 when there is no Sheet
