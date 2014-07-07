@@ -13,6 +13,7 @@ import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.entity.TDRow;
 import cn.heroes.yellow.entity.impl.FileInfo;
 import cn.heroes.yellow.exception.ParsingException;
+import cn.heroes.yellow.filler.Filler;
 import cn.heroes.yellow.filler.SourceFiller;
 import cn.heroes.yellow.filler.TDFiller;
 import cn.heroes.yellow.intercepter.TDIntercepter;
@@ -31,10 +32,10 @@ public class TDYellow extends Yellow {
 	/** 拦截器对象 */
 	private TDIntercepter<?> i;
 	/** 填充器对象 */
-	private TDFiller f;
+	private Filler<?> f;
 
 	public TDYellow(TDParser parser, TDIntercepter<?> intercepter,
-			TDFiller filler) {
+			Filler<?> filler) {
 		super(parser, intercepter, filler);
 		this.p = parser;
 		this.i = intercepter;
@@ -85,11 +86,14 @@ public class TDYellow extends Yellow {
 			FillObject<List<Object[]>> fo = i.over();
 
 			if (f != null) {
-				if (source != null && f instanceof SourceFiller) {
+				if (f instanceof SourceFiller && source != null) {
 					SourceFiller sf = (SourceFiller) f;
 					sf.fill(source, fo.getOutputStream());
+				} else if (f instanceof TDFiller) {
+					TDFiller tf = (TDFiller) f;
+					tf.fill(fo.getData(), fo.getOutputStream());
 				} else {
-					f.fill(fo.getData(), fo.getOutputStream());
+					// TODO !!!
 				}
 			}
 		} catch (ParsingException e) {

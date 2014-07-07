@@ -6,4 +6,7 @@
 
 TODO.NOW
 1.NTD, 代码里还存在TODO
-2.
+2.改变info
+3.完成Source
+4.改变Filler
+5.改变FillObject, 解决其中outputstream关闭问题
