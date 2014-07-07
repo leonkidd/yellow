@@ -12,7 +12,7 @@ import org.apache.poi.ss.util.CellReference;
 import cn.heroes.jkit.utils.ExcelUtils;
 import cn.heroes.jkit.utils.exception.EvaluateFormulaException;
 import cn.heroes.yellow.entity.TDRow;
-import cn.heroes.yellow.exception.CellNotFoundException;
+import cn.heroes.yellow.exception.FeatureNotSupportedException;
 
 /**
  * 基于Excel的TDRow的实现.
@@ -50,10 +50,9 @@ public class ExcelRow implements TDRow {
 	 * 
 	 * @param i
 	 *            1-based column number
-	 * @throws CellNotFoundException
-	 *             当cell为null.
 	 * @return
 	 */
+//	 * @throws CellNotFoundException 当cell为null.
 	private Cell cell(int i) {
 		Cell cell = row.getCell(i - 1);
 		// if (cell == null) {
@@ -238,4 +237,12 @@ public class ExcelRow implements TDRow {
 		Cell cell = row.getCell(i);
 		return cell.getCellStyle();
 	}
+
+	@Override
+	public void setValue(int i, Object value)
+			throws FeatureNotSupportedException {
+		Cell cell = cell(i);
+		ExcelUtils.setCellValue(cell, value);
+	}
+
 }

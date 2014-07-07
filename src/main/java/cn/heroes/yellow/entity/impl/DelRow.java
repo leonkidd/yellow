@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.heroes.yellow.entity.TDRow;
+import cn.heroes.yellow.exception.FeatureNotSupportedException;
 
 /**
  * 基于DEL的TDRow的实现.
@@ -80,6 +81,12 @@ public class DelRow implements TDRow {
 	@Override
 	public Object[] getValues() {
 		return ss;
+	}
+
+	@Override
+	public void setValue(int i, Object value)
+			throws FeatureNotSupportedException {
+		throw new FeatureNotSupportedException();
 	}
 
 }

@@ -21,7 +21,7 @@ import cn.heroes.yellow.parser.TDParser;
  * @version 1.00, 2014-2-5
  * @since 1.0
  */
-public class SheetNParser implements TDParser {
+public class SheetNParser implements TDParser<Workbook> {
 
 	private Iterator<Row> rows = null;
 
@@ -54,7 +54,7 @@ public class SheetNParser implements TDParser {
 	}
 
 	@Override
-	public Void parse(InputStream is) throws ParsingException {
+	public Workbook parse(InputStream is) throws ParsingException {
 		try {
 			// 创建相应版本Excel的Workbook(2003-2007)
 			book = ExcelUtils.create(is);
@@ -73,7 +73,7 @@ public class SheetNParser implements TDParser {
 			throw new ParsingException(
 					"Create Workbook from input stream error.", e);
 		}
-		return null;
+		return book;
 	}
 
 	@Override

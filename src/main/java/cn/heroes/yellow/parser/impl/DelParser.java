@@ -21,7 +21,7 @@ import cn.heroes.yellow.parser.TDParser;
  * @author Leon Kidd
  * @version 1.00, 2014-2-17
  */
-public class DelParser implements TDParser {
+public class DelParser implements TDParser<Void> {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(DelParser.class);

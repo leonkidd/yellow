@@ -11,7 +11,7 @@ import cn.heroes.yellow.exception.UnParsedException;
  * @version 1.00, 2014-1-28
  * @since 1.0
  */
-public interface TDParser extends Parser<Void> {
+public interface TDParser<T> extends Parser<T> {
 
 	/**
 	 * Move pointer to the next row, and get that Two-Dimensional Table Row.

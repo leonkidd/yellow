@@ -13,6 +13,7 @@ import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.entity.TDRow;
 import cn.heroes.yellow.entity.impl.FileInfo;
 import cn.heroes.yellow.exception.ParsingException;
+import cn.heroes.yellow.filler.SourceFiller;
 import cn.heroes.yellow.filler.TDFiller;
 import cn.heroes.yellow.intercepter.TDIntercepter;
 import cn.heroes.yellow.parser.TDParser;
@@ -32,7 +33,8 @@ public class TDYellow extends Yellow {
 	/** 填充器对象 */
 	private TDFiller f;
 
-	public TDYellow(TDParser parser, TDIntercepter<?> intercepter, TDFiller filler) {
+	public TDYellow(TDParser parser, TDIntercepter<?> intercepter,
+			TDFiller filler) {
 		super(parser, intercepter, filler);
 		this.p = parser;
 		this.i = intercepter;
@@ -43,49 +45,55 @@ public class TDYellow extends Yellow {
 	public void yellow(InputStream is, Info info) {
 		// 调用解析器去解析InputStream
 		try {
-			p.parse(is);
-		} catch (ParsingException e) {
-			throw new ParsingException("分析文件[" + info.id() + "]出错", e);
-		}
+			Object source = p.parse(is);
 
-		// 是否已真正开始的标识
-		boolean isBegin = false;
+			// 是否已真正开始的标识
+			boolean isBegin = false;
 
-		// 迭代row
-		TDRow row = null;
+			// 迭代row
+			TDRow row = null;
 
-		// TODO <?>
-		i.info(info);
-		while ((row = p.next()) != null) {
+			// TODO <?>
+			i.info(info);
+			while ((row = p.next()) != null) {
 
-			// 是否已真正开始
-			if (!isBegin) {
-				// 由拦截器来确认是否要真正开始
-				if (i.begin(row)) {
-					// 真正开始后不再判断
-					isBegin = true;
-				} else {
+				// 是否已真正开始
+				if (!isBegin) {
+					// 由拦截器来确认是否要真正开始
+					if (i.begin(row)) {
+						// 真正开始后不再判断
+						isBegin = true;
+					} else {
+						continue;
+					}
+				}
+
+				// 已开始
+				if (i.end(row)) {
+					// 结束
+					break;
+				} else if (i.ignore(row)) {
+					// 该行忽略
 					continue;
+				} else {
+					// Business Code
+					i.row(row);
 				}
 			}
 
-			// 已开始
-			if (i.end(row)) {
-				// 结束
-				break;
-			} else if (i.ignore(row)) {
-				// 该行忽略
-				continue;
-			} else {
-				// Business Code
-				i.row(row);
-			}
-		}
+			// 分析结束, 获取需要填充的数据
+			FillObject<List<Object[]>> fo = i.over();
 
-		// 分析结束, 获取需要填充的数据
-		FillObject<List<Object[]>> fo = i.over();
-		if (f != null) {
-			f.fill(fo.getData(), fo.getOutputStream());
+			if (f != null) {
+				if (source != null && f instanceof SourceFiller) {
+					SourceFiller sf = (SourceFiller) f;
+					sf.fill(source, fo.getOutputStream());
+				} else {
+					f.fill(fo.getData(), fo.getOutputStream());
+				}
+			}
+		} catch (ParsingException e) {
+			throw new ParsingException("分析文件[" + info.id() + "]出错", e);
 		}
 	}
 

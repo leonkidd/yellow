@@ -1,5 +1,7 @@
 package cn.heroes.yellow.entity;
 
+import cn.heroes.yellow.exception.FeatureNotSupportedException;
+
 /**
  * Two-Dimensional Table's row<br/>
  * 
@@ -90,4 +92,16 @@ public interface TDRow {
 	 * @return return an empty Object array when these is not any value.
 	 */
 	Object[] getValues();
+
+	/**
+	 * Put the value into the specified column of the current row.
+	 * 
+	 * @param i
+	 *            1-based, the first column is 1, the second is 2, ...
+	 */
+	void setValue(int i, Object value) throws FeatureNotSupportedException;
+	
+//	void delete();
+//	
+//	void insert();
 }
