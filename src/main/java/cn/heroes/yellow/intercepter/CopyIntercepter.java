@@ -15,7 +15,7 @@ import cn.heroes.yellow.entity.TDRow;
  * @version 1.00, 2014-2-21
  * @since 1.0
  */
-public abstract class CopyIntercepter<F> extends NTDIntercepter<F> {
+public abstract class CopyIntercepter<F> implements NTDIntercepter<F> {
 
 	// -------------- interface --------------------
 

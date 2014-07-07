@@ -12,7 +12,7 @@ package cn.heroes.yellow.intercepter;
  * @since 1.0
  */
 
-public abstract class NTDIntercepter<F> implements TDIntercepter<F> {
+public interface NTDIntercepter<F> extends TDIntercepter<F> {
 
 	/**
 	 * Current handling sheet, invoke once before starting to parse every sheet.
@@ -28,5 +28,5 @@ public abstract class NTDIntercepter<F> implements TDIntercepter<F> {
 	 * @return true if this sheet should to handle, false if this sheet should
 	 *         be ignore.
 	 */
-	public abstract boolean sheet(int index, String name);
+	public boolean sheet(int index, String name);
 }
