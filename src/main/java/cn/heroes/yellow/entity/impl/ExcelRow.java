@@ -55,9 +55,9 @@ public class ExcelRow implements TDRow {
 //	 * @throws CellNotFoundException 当cell为null.
 	private Cell cell(int i) {
 		Cell cell = row.getCell(i - 1);
-		// if (cell == null) {
-		// throw new CellNotFoundException();
-		// }
+		if (cell == null) {
+			cell = row.createCell(i - 1);
+		}
 		return cell;
 	}
 
