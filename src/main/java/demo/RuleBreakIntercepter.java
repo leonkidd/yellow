@@ -20,7 +20,7 @@ import cn.heroes.yellow.entity.Info;
 import cn.heroes.yellow.entity.TDRow;
 import cn.heroes.yellow.intercepter.NTDIntercepter;
 
-public class RuleBreakIntercepter extends NTDIntercepter<File> {
+public class RuleBreakIntercepter implements NTDIntercepter<File> {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(RuleBreakIntercepter.class);

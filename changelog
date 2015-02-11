@@ -12,6 +12,8 @@
 
 1.3.1	Fixed: 可编辑的Row中cell不存在时自动创建
 
+1.3.2	Fixed: Filler的BUG
+
 
 格式
 *.*.*	·Fixed: ....

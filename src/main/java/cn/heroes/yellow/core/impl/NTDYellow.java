@@ -44,14 +44,14 @@ public class NTDYellow extends Yellow {
 	public void yellow(InputStream is, Info info) {
 		// TODO <?>
 		i.info(info);
-		
+
 		Iterator<TDPage> pages = p.parse(is);
 		int index = 1;
 		while (pages.hasNext()) {
 			TDPage page = pages.next();
-			
+
 			boolean need = i.sheet(index++, page.getName());
-			if(!need) {
+			if (!need) {
 				continue;
 			}
 
@@ -61,7 +61,7 @@ public class NTDYellow extends Yellow {
 			// 迭代row
 			TDRow row = null;
 
-			//i.inputInfo(info);
+			// i.inputInfo(info);
 			while ((row = page.next()) != null) {
 
 				// 是否已真正开始
@@ -91,7 +91,7 @@ public class NTDYellow extends Yellow {
 
 		// 分析结束, 获取需要填充的数据
 		FillObject fo = i.over();
-		if (f != null) {
+		if (f != null && fo != null) {
 			f.fill(fo.getData(), fo.getOutputStream());
 		}
 	}
