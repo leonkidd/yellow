@@ -30,8 +30,8 @@ public interface Intercepter<T> extends NObject {
 	void info(Object info);
 
 	/**
-	 * Invoke when the parsing is over, and return the <i>OutputStream</i> for
-	 * output.
+	 * Invoke when before {@link #data()}, and return the <i>OutputStream</i>
+	 * for output.
 	 * 
 	 * @return the <i>OutputStream</i> to output. Can also return null if you
 	 *         don't want to fill.

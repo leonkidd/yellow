@@ -1,7 +1,6 @@
 package cn.heroes.yellow.parser.impl;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.poi.ss.usermodel.Row;
@@ -9,88 +8,72 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import cn.heroes.jkit.utils.ExcelUtils;
-import cn.heroes.yellow.entity.TDPage;
 import cn.heroes.yellow.entity.TDRow;
+import cn.heroes.yellow.entity.TDSheet;
 import cn.heroes.yellow.entity.impl.ExcelRow;
+import cn.heroes.yellow.entity.impl.ExcelSheet;
 import cn.heroes.yellow.exception.ParsingException;
+import cn.heroes.yellow.exception.UnParsedException;
 import cn.heroes.yellow.parser.NTDParser;
 
 /**
- * 基于Excel的解析器实现.
- * <p>
- * 迭代Sheet
- * </p>
+ * Parse the rows in every sheet of Excel file.
  * 
  * @author Leon Kidd
- * @version 1.00, 2014-2-2
- * TODO 写出问题sf.fill(source, fo.getOutputStream());
+ * @version 1.00, 2016-10-4
  */
-public class ExcelParser implements NTDParser {
+public class ExcelParser implements NTDParser<Workbook> {
 
-	/** POI Work book */
 	private Workbook book = null;
+	private Iterator<Row> rows = null;
+	private int numberOfSheets = 0;
+	private int index = 0;
 
-	/**
-	 * @return The iterable TDPage list, maybe empty but never null.
-	 */
 	@Override
-	public Iterator<TDPage> parse(InputStream is) throws ParsingException {
-		ArrayList<TDPage> list = new ArrayList<TDPage>();
+	public Workbook parse(InputStream is) throws ParsingException {
 		try {
+			// 创建相应版本Excel的Workbook(2003-2007)
 			book = ExcelUtils.create(is);
-			int numberOfSheets = book.getNumberOfSheets();
-			for (int i = 0; i < numberOfSheets; i++) {
-				Sheet sheet = book.getSheetAt(i);
-				ExcelTDPage page = new ExcelTDPage(sheet);
-				list.add(page);
-			}
+			numberOfSheets = book.getNumberOfSheets();
 		} catch (Exception e) {
-			throw new ParsingException("Error when create POI Workbook", e);
+			throw new ParsingException("Create Workbook from input stream error.", e);
 		}
-		return list.iterator();
-	}
-
-	/**
-	 * TDpage implementation, deal with every sheet.
-	 * 
-	 * @author Leon Kidd
-	 * @version 1.00, 2014-2-16
-	 * @since 1.0
-	 * @see cn.heroes.yellow.parser.impl.SheetNParser
-	 */
-	class ExcelTDPage implements TDPage {
-
-		private Sheet sheet;
-		private Iterator<Row> rows;
-
-		public ExcelTDPage(Sheet sheet) {
-			this.sheet = sheet;
-			rows = sheet.rowIterator();
-		}
-
-		@Override
-		public String getName() {
-			return sheet.getSheetName();
-		}
-
-		@Override
-		public TDRow next() {
-			if (rows.hasNext()) {
-				Row row = rows.next();
-				return new ExcelRow(row, book);
-			} else {
-				return null;
-			}
-		}
-
+		return book;
 	}
 
 	@Override
 	public void init() {
+
 	}
 
 	@Override
 	public void destroy() {
+
+	}
+
+	@Override
+	public TDSheet sheet() {
+		if (index < numberOfSheets) {
+			Sheet sheet = book.getSheetAt(index++);
+			// 迭代Row
+			rows = sheet.rowIterator();
+			return new ExcelSheet(sheet, book);
+		}
+		return null;
+	}
+
+	@Override
+	public TDRow next() throws UnParsedException {
+		// UnParsed
+		if (rows == null)
+			throw new UnParsedException();
+
+		if (rows.hasNext()) {
+			Row row = rows.next();
+			return new ExcelRow(row, book);
+		} else {
+			return null;
+		}
 	}
 
 }

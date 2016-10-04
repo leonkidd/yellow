@@ -1,6 +1,7 @@
 package cn.yhhh.test;
 
 import java.io.File;
+import java.io.OutputStream;
 import java.util.List;
 
 import org.junit.Test;
@@ -14,7 +15,7 @@ import cn.heroes.yellow.intercepter.TDIntercepter;
 import cn.heroes.yellow.parser.TDParser;
 import cn.heroes.yellow.parser.impl.DelParser;
 
-public class DelParserTest implements TDIntercepter<File> {
+public class DelParserTest implements TDIntercepter {
 	@Test
 	public void delparse() {
 		TDParser parser = new DelParser();
@@ -32,15 +33,6 @@ public class DelParserTest implements TDIntercepter<File> {
 		System.out.println(accno + "," + organ + "," + chinese);
 	}
 
-	@Override
-	public void info(Info<File> info) {
-
-	}
-
-	@Override
-	public FillObject<List<Object[]>> over() {
-		return null;
-	}
 
 	@Override
 	public void init() {
@@ -65,5 +57,23 @@ public class DelParserTest implements TDIntercepter<File> {
 	@Override
 	public boolean ignore(TDRow row) {
 		return false;
+	}
+
+	@Override
+	public void info(Object info) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public OutputStream outputStream() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Object[]> data() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

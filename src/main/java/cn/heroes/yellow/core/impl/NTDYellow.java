@@ -5,35 +5,36 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
+import java.io.OutputStream;
+import java.util.List;
 
 import cn.heroes.yellow.core.Yellow;
-import cn.heroes.yellow.entity.FillObject;
-import cn.heroes.yellow.entity.Info;
-import cn.heroes.yellow.entity.TDPage;
 import cn.heroes.yellow.entity.TDRow;
-import cn.heroes.yellow.entity.impl.FileInfo;
+import cn.heroes.yellow.entity.TDSheet;
+import cn.heroes.yellow.exception.ParsingException;
 import cn.heroes.yellow.filler.Filler;
+import cn.heroes.yellow.filler.SourceFiller;
+import cn.heroes.yellow.filler.TDFiller;
 import cn.heroes.yellow.intercepter.NTDIntercepter;
 import cn.heroes.yellow.parser.NTDParser;
 
 /**
- * TODO
+ * 
+ * 多页式二维表的Yellow实现
  * 
  * @author Leon Kidd
- * @version 1.00, 2014-2-15
- * @since 1.0
+ * @version 1.00, 2016-10-4
  */
 public class NTDYellow extends Yellow {
 
 	/** 解析器对象 */
-	private NTDParser p;
+	private NTDParser<?> p;
 	/** 拦截器对象 */
 	private NTDIntercepter i;
 	/** 填充器对象 */
-	private Filler f;
+	private Filler<?> f;
 
-	public NTDYellow(NTDParser parser, NTDIntercepter intercepter, Filler filler) {
+	public NTDYellow(NTDParser<?> parser, NTDIntercepter intercepter, Filler<?> filler) {
 		super(parser, intercepter, filler);
 		this.p = parser;
 		this.i = intercepter;
@@ -41,58 +42,68 @@ public class NTDYellow extends Yellow {
 	}
 
 	@Override
-	public void yellow(InputStream is, Info info) {
-		// TODO <?>
-		i.info(info);
-
-		Iterator<TDPage> pages = p.parse(is);
-		int index = 1;
-		while (pages.hasNext()) {
-			TDPage page = pages.next();
-
-			boolean need = i.sheet(index++, page.getName());
-			if (!need) {
-				continue;
-			}
+	public void yellow(InputStream is, Object info) {
+		try {
+			// 调用解析器去解析InputStream
+			Object source = p.parse(is);
 
 			// 是否已真正开始的标识
 			boolean isBegin = false;
 
-			// 迭代row
 			TDRow row = null;
+			TDSheet sheet = null;
 
-			// i.inputInfo(info);
-			while ((row = page.next()) != null) {
+			i.info(info);
 
-				// 是否已真正开始
-				if (!isBegin) {
-					// 由拦截器来确认是否要真正开始
-					if (i.begin(row)) {
-						// 真正开始后不再判断
-						isBegin = true;
-					} else {
-						continue;
+			// 迭代sheet and row
+			for (int sheetIndex = 1; (sheet = p.sheet()) != null; sheetIndex++) {
+				if (i.sheet(sheetIndex, sheet.getName())) {
+					while ((row = p.next()) != null) {
+
+						// 是否已真正开始
+						if (!isBegin) {
+							// 由拦截器来确认是否要真正开始
+							if (i.begin(row)) {
+								// 真正开始后不再判断
+								isBegin = true;
+							} else {
+								continue;
+							}
+						}
+
+						// 已开始
+						if (i.end(row)) {
+							// 结束
+							break;
+						} else if (i.ignore(row)) {
+							// 该行忽略
+							continue;
+						} else {
+							// Business Code
+							i.row(row);
+						}
 					}
 				}
+			}
 
-				// 已开始
-				if (i.end(row)) {
-					// 结束
-					break;
-				} else if (i.ignore(row)) {
-					// 该行忽略
-					continue;
+			// 分析结束, 获取需要填充的数据
+			// FillObject<List<Object[]>> fo = i.over();
+			OutputStream os = i.outputStream();
+			List<Object[]> data = i.data();
+
+			if (f != null && os != null && data != null) {
+				if (f instanceof SourceFiller && source != null) {
+					SourceFiller sf = (SourceFiller) f;
+					sf.fill(source, os);
+				} else if (f instanceof TDFiller) {
+					TDFiller tf = (TDFiller) f;
+					tf.fill(data, os);
 				} else {
-					// Business Code
-					i.row(row);
+					// TODO !!!
 				}
 			}
-		}
-
-		// 分析结束, 获取需要填充的数据
-		FillObject fo = i.over();
-		if (f != null && fo != null) {
-			f.fill(fo.getData(), fo.getOutputStream());
+		} catch (ParsingException e) {
+			throw new ParsingException("分析文件[" + (info instanceof File ? ((File) info).getName() : info) + "]出错", e);
 		}
 	}
 
@@ -102,7 +113,7 @@ public class NTDYellow extends Yellow {
 		try {
 			fis = new FileInputStream(file);
 
-			yellow(fis, new FileInfo(file));
+			yellow(fis, file);
 		} catch (FileNotFoundException e) {
 			// Throw exception
 			e.printStackTrace();

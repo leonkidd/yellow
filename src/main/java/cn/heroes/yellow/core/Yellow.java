@@ -11,9 +11,11 @@ import cn.heroes.yellow.parser.Parser;
  * 程序入口抽象类. 对应每一大类Parser(e.g. TDParser, ODParser)就有相关的Yellow.
  * 
  * <pre>
- * Yellow yellow = new *Yellow(*parser, *intercepter, *filler);
- * yellow.yellow(*);
- * yellow.destroy();
+ * Yellow yellow = new *Yellow(*parser, *intercepter, *filler);	// init
+ * yellow.yellow(A);	// info --> row --> data
+ * ...
+ * yellow.yellow(B);	// info --> row --> data
+ * yellow.destroy();	// destroy
  * </pre>
  * 
  * @author Leon Kidd

@@ -2,6 +2,7 @@ v2.0.0 (unreleased)
 	- Remove generic type design of Info
 	- Remove FillObject
 	* Modified method Intercepter#over
+	+ Add NTD*
 
 v1.3.2	Fixed: Filler的BUG
 
