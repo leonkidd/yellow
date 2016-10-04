@@ -11,3 +11,8 @@ TODO.NOW
 3.完成Source
 4.改变Filler
 5.改变FillObject, 解决其中outputstream关闭问题
+
+
+// ------- v2.0 --------------------------------------------------
+将Filler Buffer，即逐条数据写入
+整理代码

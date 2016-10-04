@@ -8,6 +8,7 @@ import java.io.OutputStream;
  * 
  * @author Leon Kidd
  * @version 1.00, 2014-2-11
+ * @deprecated since v2.0.0
  */
 public class FillObject<T> {
 	/**
