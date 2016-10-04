@@ -1,16 +1,15 @@
 package cn.heroes.yellow.intercepter;
 
+import java.io.OutputStream;
+
 import cn.heroes.yellow.NObject;
-import cn.heroes.yellow.entity.FillObject;
-import cn.heroes.yellow.entity.Info;
 
 /**
  * The <tt>Interceptor</tt> interface should be implemented by all Interceptors.
  * Handle the data parsed by {@link cn.heroes.yellow.parser.Parser}.
  * <p>
- * The <tt>T</tt> is the type of data which is return by <code>over</code>
- * method and used by {@link cn.heroes.yellow.filler.Filler}. The <tt>F</tt> is
- * the type of info about object intercepted.
+ * The <tt>T</tt> is the type of data which is return by <code>data</code>
+ * method and used by {@link cn.heroes.yellow.filler.Filler}.
  * <p/>
  * <p>
  * 拦截器, 上接<code>Parser</code>, 下接<code>Filler</code>, 只关注标准格式下的内容数据处理,
@@ -20,7 +19,7 @@ import cn.heroes.yellow.entity.Info;
  * @author Leon Kidd
  * @version 1.00, 2014-1-30
  */
-public interface Intercepter<T, F> extends NObject {
+public interface Intercepter<T> extends NObject {
 
 	/**
 	 * 在Parser要开始化析某个内容时调用, 一般是放入一些Parser正要解析的内容主体相关的信息.
@@ -28,15 +27,23 @@ public interface Intercepter<T, F> extends NObject {
 	 * @param info
 	 *            信息, 如文件名等
 	 */
-	void info(Info<F> info);
+	void info(Object info);
+
+	/**
+	 * Invoke when the parsing is over, and return the <i>OutputStream</i> for
+	 * output.
+	 * 
+	 * @return the <i>OutputStream</i> to output. Can also return null if you
+	 *         don't want to fill.
+	 * @see cn.heroes.yellow.filler.Filler
+	 */
+	OutputStream outputStream();
 
 	/**
 	 * Invoke when the parsing is over, and return the data for filling.
 	 * 
-	 * @return the <code>FillObject</code> object. It contain the data to fill
-	 *         and the information about saving media. Can also return null if
-	 *         you don't want to fill.
+	 * @return The data to fill. Can also return null if you don't want to fill.
 	 * @see cn.heroes.yellow.filler.Filler
 	 */
-	FillObject<T> over();
+	T data();
 }

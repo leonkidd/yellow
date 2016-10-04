@@ -30,7 +30,7 @@ import cn.heroes.yellow.entity.TDRow;
  * @version 1.00, 2014-1-28
  * @since 1.0
  */
-public interface TDIntercepter<F> extends Intercepter<List<Object[]>, F> {
+public interface TDIntercepter extends Intercepter<List<Object[]>> {
 
 	/**
 	 * 

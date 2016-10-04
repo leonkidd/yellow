@@ -1,23 +1,20 @@
-1.0.0	为了解决API设计上的问题（不易用），整体重实现，框架结构演用0.0.1。
+v2.0.0 (unreleased)
+	- Remove generic type design of Info
+	- Remove FillObject
+	* Modified method Intercepter#over
 
-1.1.0	Added: ExcelRow通过列名(字母)获取单元格内容
-		Added: CellUtils工具类用于单元格处理，代替Chessboard.
+v1.3.2	Fixed: Filler的BUG
+
+v1.3.1	Fixed: 可编辑的Row中cell不存在时自动创建
+
+v1.3.0	Added: 可编辑的Row(目前只在TD模块对Excel进行支持)
+		Improved: 扩展TDParser
 		
-1.2.0	Added: Del、CSV解析支持
+v1.2.0	Added: Del、CSV解析支持
 		Added: Del、CSV填充支持
 		Fixed: SheetNFiller的BUG
 
-1.3.0	Added: 可编辑的Row(目前只在TD模块对Excel进行支持)
-		Improved: 扩展TDParser
+v1.1.0	Added: ExcelRow通过列名(字母)获取单元格内容
+		Added: CellUtils工具类用于单元格处理，代替Chessboard.
 
-1.3.1	Fixed: 可编辑的Row中cell不存在时自动创建
-
-1.3.2	Fixed: Filler的BUG
-
-
-格式
-*.*.*	·Fixed: ....
-		·Fixed: ....
-		·Improved: ....
-		·Added: ....
-		·Removed: ....
+v1.0.0	为了解决API设计上的问题（不易用），整体重实现，框架结构演用0.0.1。

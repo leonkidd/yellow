@@ -5,6 +5,7 @@ package cn.heroes.yellow.entity;
  * 
  * @author Leon Kidd
  * @version 1.00, 2014-2-2
+ * @deprecated since v2.0.0
  */
 public interface Info<T> {
 
