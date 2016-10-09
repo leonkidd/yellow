@@ -1,3 +1,6 @@
+1. NTDFiller
+2. 循环分析多个文件时，Yellow中各文件资源释放问题。（比如parser）
+
 TODO SourceFiller文件连接未关闭问题
 
 调整filler的设计，使得可以单独被其他程序使用。
