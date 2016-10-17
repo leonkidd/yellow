@@ -1,8 +1,11 @@
+v2.1.0
+	+ Add NTD*
+	* Fixed NULL cell bug on getValues()
+
 v2.0.0
 	- Remove generic type design of Info
 	- Remove FillObject
 	* Modified method Intercepter#over
-	+ Add NTD*
 
 v1.3.2	Fixed: Filler的BUG
 
