@@ -35,6 +35,7 @@ public class ExcelParser implements NTDParser<Workbook> {
 			// 创建相应版本Excel的Workbook(2003-2007)
 			book = ExcelUtils.create(is);
 			numberOfSheets = book.getNumberOfSheets();
+			index = 0;
 		} catch (Exception e) {
 			throw new ParsingException("Create Workbook from input stream error.", e);
 		}
