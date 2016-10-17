@@ -1,7 +1,5 @@
 package cn.heroes.yellow.entity.impl;
 
-import java.util.Iterator;
-
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -206,11 +204,14 @@ public class ExcelRow implements TDRow {
 	 */
 	@Override
 	public Object[] getValues() {
-		Object[] values = new Object[(int) row.getLastCellNum()];
-		Iterator<Cell> cells = row.cellIterator();
-		int i = 0;
-		while (cells.hasNext()) {
-			Cell cell = cells.next();
+		short cellnum = row.getLastCellNum();
+		Object[] values = new Object[(int) cellnum];
+		for(int i = 0; i < cellnum; i++) {
+			Cell cell = row.getCell(i);
+			if(cell == null) {
+				continue;
+			}
+			
 			Object value = null;
 			try {
 				if (book != null) {
@@ -221,7 +222,7 @@ public class ExcelRow implements TDRow {
 			} catch (EvaluateFormulaException e) {
 				value = "=" + cell.getCellFormula();
 			}
-			values[i++] = value;
+			values[i] = value;
 		}
 		return values;
 	}

@@ -1,6 +1,7 @@
 1. NTDFiller，在TDYellow中fill的问题。
 2. 循环分析多个文件时，Yellow中各文件资源释放问题。（比如parser）
 3. 大文件分析，占用内存问题，stream式研究。
+4. 大文件写出，Filler问题（e.g. 大数据合并）
 
 TODO SourceFiller文件连接未关闭问题
 
